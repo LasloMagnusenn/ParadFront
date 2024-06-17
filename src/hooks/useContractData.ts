@@ -88,6 +88,8 @@ export const useGetComplexRefInfoForUser = (address?: string) => {
   return refInfo;
 };
 
+
+// ACTIVE DEBATES
 export const useGetActiveDisputesForUser = (address?: string) => {
   const { data: rawDisputes }: { data?: RawActiveDebates } = useReadContract({
     address: sporeAddress,
@@ -95,13 +97,15 @@ export const useGetActiveDisputesForUser = (address?: string) => {
     functionName: "getActiveDisputesForUser",
     args: [address],
   });
-
+  
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
-      ? rawDisputes[0].map((topic, index) => ({
-          topicId: topic,
-          disputeId: rawDisputes[1][index],
-        }))
+      ? rawDisputes.map((item) => {
+        return {
+          topicId: item[0],
+          disputeId: item[1],
+        }
+      })
       : undefined;
 
   return disputes;
@@ -142,8 +146,73 @@ export const useActiveDisputesForUser = (address?: string) => {
       setTopics(topics);
     };
 
-    fetchData();
-  }, []);
+    !topics?.topics.length && fetchData();
+  }, [activeDebates, topics]);
 
-  return topics;
+  return {topics, activeDebates};
+};
+
+
+
+// HISTORY DEBATES
+export const useGetHistoryDisputesForUser = (address?: string) => {
+  const { data: rawDisputes }: { data?: RawActiveDebates } = useReadContract({
+    address: sporeAddress,
+    abi: sporeABI,
+    functionName: "getHistoryDisputesForUser",
+    args: [address],
+  });
+  
+  const disputes: ActiveDebates =
+    rawDisputes && rawDisputes.length
+      ? rawDisputes.map((item) => {
+        return {
+          topicId: item[0],
+          disputeId: item[1],
+        }
+      })
+      : undefined;
+
+  return disputes;
+};
+
+export const useHistoryDisputesForUser = (address?: string) => {
+  const { getFilteredTopicsAndDebates } = debatesService;
+  const [topics, setTopics] = useState<ITopicsData>();
+  const historyDebates = useGetHistoryDisputesForUser(address);
+
+  // const activeDebates: ActiveDebates = [
+  //   {
+  //     topicId: BigInt(1),
+  //     disputeId: BigInt(1),
+  //   },
+  //   {
+  //     topicId: BigInt(1),
+  //     disputeId: BigInt(2),
+  //   },
+  //   {
+  //     topicId: BigInt(2),
+  //     disputeId: BigInt(1),
+  //   },
+  // ];
+
+  const fetchTopics = useCallback(async () => {
+    if (!historyDebates) {
+      return;
+    }
+    const { getTopics } = blockchainService;
+    const data = await getTopics();
+    return await getFilteredTopicsAndDebates(historyDebates, data);
+  }, [historyDebates]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const topics = await fetchTopics();
+      setTopics(topics);
+    };
+
+    !topics?.topics.length && fetchData();
+  }, [historyDebates, topics]);
+
+  return {topics, historyDebates};
 };

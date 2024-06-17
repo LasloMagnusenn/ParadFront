@@ -1,3 +1,5 @@
+import { ActiveDebates } from "@/types/referral.type";
+
 export type Status = "Waiting Members" | "Going" | "Completed" | "Unknown";
 
 export interface IMetadata {
@@ -40,6 +42,7 @@ export interface IDebatesData {
 export interface IDebateData {
   id?: number | string;
   debate: IDebate;
+  debatesIndexes: ActiveDebates;
 }
 
 export interface ITopicData {

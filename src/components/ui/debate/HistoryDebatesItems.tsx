@@ -4,7 +4,7 @@ import ActiveDebateItem from "./ActiveDebateItem";
 import { ActiveDebates } from "@/types/referral.type";
 
 
-export default function ActiveDebatesItems(props: {
+export default function HistoryDebatesItems(props: {
   topics: ITopicsData | undefined;
   debatesIndexes: ActiveDebates;
 }) {
@@ -13,11 +13,9 @@ export default function ActiveDebatesItems(props: {
   return (
     <div className={styles.topic_items}>
       <div className={styles.topic_items__container}>
-        
         <div className={styles.topic_items__container__info}>
-          <h1>Active Debates</h1>
+          <h1>Debates History</h1>
         </div>
-          
         <div className={styles.topic_items__container__debates}>
           {topics?.topics ? (
             topics.topics.map((topic) =>
@@ -32,7 +30,7 @@ export default function ActiveDebatesItems(props: {
             )
           ) : (
             <div className={styles.topic_items__container__debates__not_found}>
-              <h3>No Active Debates Found</h3>
+              <h3>No Debates Found</h3>
             </div>
           )}
         </div>
