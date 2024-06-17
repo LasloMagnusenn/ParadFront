@@ -15,6 +15,7 @@ import Topics from "@/components/screens/topics/Topics";
 import { CreateDebatesModalButton } from "@/components/modal/CreateDebates";
 import { PNG } from "@/../public/static/images/png/png";
 import HotDebates from "@/components/screens/debates/HotDebates";
+import { useHotDisputes } from "@/hooks/useContractData";
 
 export const metadata: Metadata = {
   title: "Debates | Paradigma",
@@ -25,7 +26,8 @@ export default async function DebatesPage() {
   // const _data = await getCachedData();
   const data = await getAll();
 
-  // console.log(data);
+  console.log("TOPICS DATA:", data);
+
 
   return (
     <div className={styles.debates}>

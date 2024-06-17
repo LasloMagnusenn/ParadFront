@@ -35,6 +35,7 @@ export interface IDebate {
 export interface IDebatesData {
   id: number | string;
   title?: string;
+  participantsCount: number;
   image?: string;
   debates: IDebate[];
 }

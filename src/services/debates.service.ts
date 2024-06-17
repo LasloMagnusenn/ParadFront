@@ -82,7 +82,7 @@ const getCachedFilteredTopicsAndDebates = (
           if (existingTopic) {
             existingTopic.debates.push(debate);
           } else {
-            filteredTopics.push({ id: topic.id, debates: [debate] });
+            filteredTopics.push({ id: topic.id, debates: [debate], image: topic.image, participantsCount: topic.participantsCount });
           }
         }
       }

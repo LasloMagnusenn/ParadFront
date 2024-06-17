@@ -216,3 +216,70 @@ export const useHistoryDisputesForUser = (address?: string) => {
 
   return {topics, historyDebates};
 };
+
+
+
+// HOT DEBATES
+export const useGetHotDisputes = () => {
+  const { data: rawDisputes }: { data?: RawActiveDebates } = useReadContract({
+    address: sporeAddress,
+    abi: sporeABI,
+    functionName: "getBulkIsHotForGroups",
+  });
+
+  const disputes: ActiveDebates =
+    rawDisputes && rawDisputes.length
+      ? rawDisputes.map((item) => {
+        return {
+          topicId: item[0],
+          disputeId: item[1],
+        }
+      })
+      : undefined;
+
+  return disputes;
+};
+
+export const useHotDisputes = () => {
+  const { getFilteredTopicsAndDebates } = debatesService;
+  const [topics, setTopics] = useState<ITopicsData>();
+  const hotDisputes = useGetHotDisputes();
+
+  // const activeDebates: ActiveDebates = [
+  //   {
+  //     topicId: BigInt(1),
+  //     disputeId: BigInt(1),
+  //   },
+  //   {
+  //     topicId: BigInt(1),
+  //     disputeId: BigInt(2),
+  //   },
+  //   {
+  //     topicId: BigInt(2),
+  //     disputeId: BigInt(1),
+  //   },
+  // ];
+
+  console.log("HOT DISPUTES:", hotDisputes)
+
+
+  const fetchTopics = useCallback(async () => {
+    if (!hotDisputes) {
+      return;
+    }
+    const { getTopics } = blockchainService;
+    const data = await getTopics();
+    return await getFilteredTopicsAndDebates(hotDisputes, data);
+  }, [hotDisputes]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      //const topics = await fetchTopics();
+      //setTopics(topics);
+    };
+
+    !topics?.topics.length && fetchData();
+  }, [hotDisputes, topics]);
+
+  return {topics, hotDisputes};
+};
