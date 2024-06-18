@@ -220,7 +220,7 @@ export const UpdateUriForDisputeForm = ({ dispute }: IDisputeForm) => {
 
 export const UpdateGroupIdURIForm = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
-  const { write } = useWrite.useUpdateUriForDispute(formData);
+  const { write } = useWrite.useUpdateGroupIdURI(formData);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -246,14 +246,14 @@ export const UpdateGroupIdURIForm = () => {
           <form className={styles.form__container__form} onSubmit={handleSubmit}>
             <input
                 type="number"
-                name="groupId"
+                name="_groupID"
                 placeholder="Group ID"
                 required
             />
             <input
-                type="number"
-                name="groupIndex"
-                placeholder="Group Index"
+                type="text"
+                name="_newURI"
+                placeholder="New URI"
                 required
             />
             <GreyButton type="submit" title="Submit"/>
