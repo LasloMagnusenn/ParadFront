@@ -7,6 +7,7 @@ import {
 } from "@/utils/blockchain/blockchainData";
 import { readContract, readContracts } from "@wagmi/core";
 import {
+  IDebatesData,
   IMetadata,
   ITopicData,
   ITopicsData,
@@ -43,7 +44,6 @@ const getTopicList = async (): Promise<bigint[]> => {
     const result = await readContract(coreConfig, {
       ...contract,
       functionName: "readGroupIdKeys",
-
     });
 
     return result as bigint[];
@@ -51,6 +51,19 @@ const getTopicList = async (): Promise<bigint[]> => {
     throw new Error("Failed to get topics:" + error || "Unknown error");
   }
 };
+
+const getBulkIsHotForGroups = async (): Promise<bigint[]> => {
+  try {
+    const result = await readContract(coreConfig, {
+      ...contract,
+      functionName: "getBulkIsHotForGroups",
+    });
+
+    return result as bigint[];
+  } catch (error) {
+    throw new Error("Failed to get topics:" + error || "Unknown error");
+  }
+}
 
 const getUriForDispute = async (
   topicId: number | string,
@@ -230,7 +243,6 @@ export const blockchainService = {
 
       return debates;
     } catch (error) {
-      console.log(error)
       throw new Error();
     }
   },

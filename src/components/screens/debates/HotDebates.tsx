@@ -1,12 +1,9 @@
 "use client"
 import HotDebateItem from "@/components/ui/debate/HotDebateItem";
 import { useHotDisputes } from "@/hooks/useContractData";
-import { ITopicData } from "@/interfaces/debates.interface";
 import styles from "@/styles/components/screens/debates/hot-debates.module.css";
 
-{
-  /* Temporary !!! */
-}
+
 export default function HotDebates() {
   const { topics, hotDisputes } = useHotDisputes();
 
