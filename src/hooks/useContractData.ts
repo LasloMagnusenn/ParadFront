@@ -260,7 +260,7 @@ export const useHotDisputes = () => {
   //   },
   // ];
 
-  console.log("HOT DISPUTES:", hotDisputes)
+  // console.log("HOT DISPUTES:", hotDisputes)
 
 
   const fetchTopics = useCallback(async () => {
@@ -274,8 +274,8 @@ export const useHotDisputes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      //const topics = await fetchTopics();
-      //setTopics(topics);
+      const topics = await fetchTopics();
+      setTopics(topics);
     };
 
     !topics?.topics.length && fetchData();
