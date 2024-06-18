@@ -136,3 +136,8 @@ export const useReceiveERC20 = (_args: { [key: string]: string }) =>
 // args: [_args?.amount],
 export const useWithdrawPARAD = (_args: { [key: string]: string }) =>
   useContractWrite("withdrawPARAD", _args);
+
+// args: [_args?._groupID, _args?._newURI]
+export const useUpdateGroupIdURI = (_args: { [key: string]: string }) => {
+  useContractWrite("updateGroupIdURI", _args);
+}

@@ -216,3 +216,49 @@ export const UpdateUriForDisputeForm = ({ dispute }: IDisputeForm) => {
     </div>
   );
 };
+
+
+export const UpdateGroupIdURIForm = () => {
+  const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const { write } = useWrite.useUpdateUriForDispute(formData);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formValues: { [key: string]: string } = {};
+
+    for (const [key, value] of formData.entries()) {
+      formValues[key] = value as string;
+    }
+    setFormData(formValues);
+  };
+
+  useEffect(() => {
+    if (Object.keys(formData).length > 0) {
+      write();
+    }
+  }, [formData]);
+
+  return (
+      <div className={styles.form}>
+        <div className={styles.form__container}>
+          <h2 className="purple_color">Update group id URI</h2>
+          <form className={styles.form__container__form} onSubmit={handleSubmit}>
+            <input
+                type="number"
+                name="groupId"
+                placeholder="Group ID"
+                required
+            />
+            <input
+                type="number"
+                name="groupIndex"
+                placeholder="Group Index"
+                required
+            />
+            <GreyButton type="submit" title="Submit"/>
+          </form>
+        </div>
+      </div>
+  );
+};

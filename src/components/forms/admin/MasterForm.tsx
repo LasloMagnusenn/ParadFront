@@ -6,10 +6,10 @@ import {
   RevokeRoleForm,
 } from "./module/RoleForms";
 import {
-  SetDisputePointForm,
-  SetIsHotDisputeForm,
-  SetStatusDisputeForm,
-  UpdateUriForDisputeForm,
+    SetDisputePointForm,
+    SetIsHotDisputeForm,
+    SetStatusDisputeForm, UpdateGroupIdURIForm,
+    UpdateUriForDisputeForm,
 } from "./module/DisputeForms";
 import {
   SetPARADContractForm,
@@ -40,6 +40,7 @@ export default function MasterForm() {
       <SetSporeNFTForm />
       <ReceiveERC20Form />
       <WithdrawPARADForm />
+      <UpdateGroupIdURIForm />
     </div>
   );
 }
