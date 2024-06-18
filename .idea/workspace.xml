@@ -5,17 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed8ee34b-e44e-4dcd-ada4-4506b8e8e9ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/modal/BuyNFT.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/context/buy-nft-context.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/debates/[topic]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/debates/[topic]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/debates/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/debates/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/screens/debates/HotDebates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/screens/debates/HotDebates.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/topic/TopicItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/topic/TopicItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,20 +34,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bohdan\\Documents\\development\\ParadFront\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/bohdan/Documents/development/ParadFront/src/components/modal",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "ts.external.directory.path": "C:\\Users\\bohdan\\Documents\\development\\ParadFront\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bohdan\Documents\development\ParadFront\src\components\modal" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -59,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1718698135215</updated>
       <workItem from="1718698136740" duration="3008000" />
-      <workItem from="1718705173967" duration="7820000" />
+      <workItem from="1718705173967" duration="11589000" />
     </task>
     <servers />
   </component>

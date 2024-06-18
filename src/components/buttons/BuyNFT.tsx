@@ -46,6 +46,8 @@ export default function BuyNFTButton({
   const { allowance } = useParadAllowance(address);
   const { balance } = useParadBalance(address);
 
+
+
   const formattedPrice = useMemo(() => {
     return decimals ? price * 10 ** decimals : 0;
   }, [price, decimals]);
@@ -63,6 +65,8 @@ export default function BuyNFTButton({
   });
 
   const handleClick = async () => {
+
+
     if (balance && formattedPrice && balance >= formattedPrice) {
       if (Number(allowance) >= formattedPrice) {
         buyWrite();
