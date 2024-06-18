@@ -1,64 +1,53 @@
 "use client";
-import { useState, useEffect, useRef, FormEvent } from "react";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
 import GreyButton from "../buttons/Grey";
 import { useAccount } from "wagmi";
-import styles from "@/styles/components/modal/create-debates.module.css";
+import styles from "@/styles/components/modal/buy-nft.module.css";
 import { motion } from "framer-motion";
-import { useCreateDispute } from "@/hooks/useContractWriteForm";
-import { useIsAdmin } from "@/hooks/useContractData";
+import { useParadBalance} from "@/hooks/useContractData";
 
 interface BuyNFTModalProps {
     open: boolean;
     onClose: () => void;
     basePrice: number;
-    handleBuyNFT: () => void;
+    formattedPrice: number;
+    handleBuyNFT: (mul: number) => void;
 }
 
 export function BuyNFTModalButton(props: {
+    button: React.ReactElement;
     basePrice: number;
-    handleBuyNFT: () => void;
+    formattedPrice: number;
+    handleBuyNFT: (mul: number) => void;
 }) {
-    const { basePrice, handleBuyNFT } = props;
-    const { address } = useAccount();
+    const { basePrice, handleBuyNFT, button, formattedPrice } = props;
     const [open, setOpen] = useState(false);
-    const isAdmin = useIsAdmin(address);
 
     return (
         <>
-            {isAdmin && (
-                <>
-                    <GreyButton
-                        onClick={() => setOpen((prev) => !prev)}
-                        title="Buy NFT"
-                    />
-                    <BuyNFTModal
-                        open={open}
-                        onClose={() => setOpen(false)}
-                        basePrice={basePrice}
-                        handleBuyNFT={handleBuyNFT}
-                    />
-                </>
-            )}
+            {React.cloneElement(button, {
+                onClick: () => setOpen((prev) => !prev),
+            })}
+            <BuyNFTModal
+                open={open}
+                onClose={() => setOpen(false)}
+                basePrice={basePrice}
+                formattedPrice={formattedPrice}
+                handleBuyNFT={handleBuyNFT}
+            />
         </>
     );
 }
 
-export function BuyNFTModal({ open, onClose }: BuyNFTModalProps) {
+export function BuyNFTModal({ open, onClose, basePrice, handleBuyNFT, formattedPrice }: BuyNFTModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
-    const [formData, setFormData] = useState<{ [key: string]: string }>({});
+    const { address } = useAccount();
+    const { balance } = useParadBalance(address);
 
-    const { txStatus, error, status, write } = useCreateDispute(formData);
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const formValues: { [key: string]: string } = {};
-
-        for (const [key, value] of formData.entries()) {
-            formValues[key] = value as string;
-        }
-
-        setFormData(formValues);
+    const handleSubmit = (multiplier: number) => {
+        onClose?.();
+        handleBuyNFT(multiplier);
     };
 
     useEffect(() => {
@@ -86,51 +75,51 @@ export function BuyNFTModal({ open, onClose }: BuyNFTModalProps) {
         };
     }, [onClose]);
 
-    useEffect(() => {
-        if (Object.keys(formData).length > 0) {
-            write();
-        }
-    }, [formData]);
 
     return open ? (
         <motion.div
-            className={styles.debates_modal}
+            className={styles.buynft_modal}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { duration: 0.2 } }}
             exit={{ opacity: 0 }}
         >
-            <div className={styles.debates_modal__container} ref={modalRef}>
+            <div className={styles.buynft_modal__container} ref={modalRef}>
                 <h2 className="purple_color">Buy NFT</h2>
-                <p className={styles.debates_modal__container__close} onClick={onClose}>
+                <p className={styles.buynft_modal__container__close} onClick={onClose}>
                     &times;
                 </p>
-                <form
-                    className={styles.debates_modal__container__form}
-                    onSubmit={handleSubmit}
-                >
-                    <div className={styles.debates_modal__container__form__group}>
-                        <h2>Group ID</h2>
-                        <input
-                            min={1}
-                            defaultValue={1}
-                            type="number"
-                            placeholder="Group ID"
-                            name="groupId"
-                            required
+                <div className={styles.buynft_modal__container__form}>
+
+                    <div>
+                        <h2>{basePrice} PARAD</h2>
+                        <GreyButton
+                            isActive={Boolean(balance && (balance > formattedPrice))}
+                            style={{width: "100%", marginTop: 10}}
+                            title="Buy x1"
+                            onClick={() => handleSubmit(1)}
                         />
                     </div>
 
-                    <div className={styles.debates_modal__container__form__group}>
-                        <h2>Title</h2>
-                        <input placeholder="Title" name="point" required />
+                    <div>
+                        <h2>{basePrice * 2} PARAD</h2>
+                        <GreyButton
+                            isActive={Boolean(balance && (balance > formattedPrice * 2))}
+                            style={{width: "100%", marginTop: 10}}
+                            title="Buy x2"
+                            onClick={() => handleSubmit(2)}
+                        />
                     </div>
 
-                    <GreyButton
-                        type="submit"
-                        style={{ width: "100%", marginTop: 10 }}
-                        title="Buy"
-                    />
-                </form>
+                    <div>
+                        <h2>{basePrice * 3} PARAD</h2>
+                        <GreyButton
+                            isActive={Boolean(balance && (balance > formattedPrice * 3))}
+                            style={{width: "100%", marginTop: 10}}
+                            title="Buy x3"
+                            onClick={() => handleSubmit(3)}
+                        />
+                    </div>
+                </div>
             </div>
         </motion.div>
     ) : undefined;

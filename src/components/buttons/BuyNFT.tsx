@@ -14,6 +14,7 @@ import {
   useParadDecimals,
 } from "@/hooks/useContractData";
 import { useEffect, useMemo } from "react";
+import {BuyNFTModalButton} from "@/components/modal/BuyNFT";
 
 interface BuyNFTButtonProps {
   title: string;
@@ -64,11 +65,9 @@ export default function BuyNFTButton({
     referrer: "0xeF0A5C14e968fd6f7090BB8E184c7e7Ed87095Df",
   });
 
-  const handleClick = async () => {
-
-
-    if (balance && formattedPrice && balance >= formattedPrice) {
-      if (Number(allowance) >= formattedPrice) {
+  const handleBuyNFT = async (multiplier: number) => {
+    if (balance && formattedPrice && balance >= formattedPrice * multiplier) {
+      if (Number(allowance) >= formattedPrice * multiplier) {
         buyWrite();
       } else {
         approveWrite();
@@ -83,27 +82,33 @@ export default function BuyNFTButton({
   }, [approveTxStatus]);
 
   return (
-    <button
-      className={`${styles.green__button} ${styles.green__button__text} ${
-        isActive ? styles.active : ""
-      } ${isFullWidthInMobile ? styles.mobile_width : ""}`}
-      type={type}
-      style={style}
-      onClick={handleClick}
-    >
-      {!hideCubes && (
-        <Image
-          className={styles.green__button__cubes}
-          src={SVG.hugeCubesDark}
-          alt="cubes"
-          style={{ color: "black" }}
+        <BuyNFTModalButton
+            button={
+              <button
+                  className={`${styles.green__button} ${styles.green__button__text} ${
+                      isActive ? styles.active : ""
+                  } ${isFullWidthInMobile ? styles.mobile_width : ""}`}
+                  type={type}
+                  style={style}
+              >
+                {!hideCubes && (
+                    <Image
+                        className={styles.green__button__cubes}
+                        src={SVG.hugeCubesDark}
+                        alt="cubes"
+                        style={{color: "black"}}
+                    />
+                )}
+                {balance && formattedPrice && balance >= formattedPrice
+                    ? Number(allowance) >= formattedPrice
+                        ? title
+                        : "Approve"
+                    : "Not Enough Parad"}
+              </button>
+            }
+            basePrice={price}
+            formattedPrice={formattedPrice}
+            handleBuyNFT={handleBuyNFT}
         />
-      )}
-      {balance && formattedPrice && balance >= formattedPrice
-        ? Number(allowance) >= formattedPrice
-          ? title
-          : "Approve"
-        : "Not Enough Parad"}
-    </button>
   );
 }
