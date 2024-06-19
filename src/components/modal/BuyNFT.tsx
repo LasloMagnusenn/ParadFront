@@ -45,9 +45,11 @@ export function BuyNFTModal({ open, onClose, basePrice, handleBuyNFT, formattedP
     const { balance } = useParadBalance(address);
 
 
-    const handleSubmit = (multiplier: number) => {
+    const handleSubmit = (multiplier: number | null) => {
         onClose?.();
-        handleBuyNFT(multiplier);
+        if (multiplier) {
+            handleBuyNFT(multiplier);
+        }
     };
 
     useEffect(() => {
@@ -92,32 +94,65 @@ export function BuyNFTModal({ open, onClose, basePrice, handleBuyNFT, formattedP
 
                     <div>
                         <h2>{basePrice} PARAD</h2>
-                        <GreyButton
-                            isActive={Boolean(balance && (balance > formattedPrice))}
-                            style={{width: "100%", marginTop: 10}}
-                            title="Buy x1"
-                            onClick={() => handleSubmit(1)}
-                        />
+                        {
+                            !Boolean(balance && (balance > formattedPrice))
+                            ?
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Not enough PARAD"
+                                onClick={() => handleSubmit(null)}
+                            />
+                            :
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Buy x1"
+                                onClick={() => handleSubmit(1)}
+                            />
+                        }    
                     </div>
 
                     <div>
                         <h2>{basePrice * 2} PARAD</h2>
-                        <GreyButton
-                            isActive={Boolean(balance && (balance > formattedPrice * 2))}
-                            style={{width: "100%", marginTop: 10}}
-                            title="Buy x2"
-                            onClick={() => handleSubmit(2)}
-                        />
+                        {
+                            !Boolean(balance && (balance > formattedPrice))
+                            ?
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice * 2))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Not enough PARAD"
+                                onClick={() => handleSubmit(null)}
+                            />
+                            :
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice * 2))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Buy x2"
+                                onClick={() => handleSubmit(2)}
+                            />
+                        }    
                     </div>
 
                     <div>
                         <h2>{basePrice * 3} PARAD</h2>
-                        <GreyButton
-                            isActive={Boolean(balance && (balance > formattedPrice * 3))}
-                            style={{width: "100%", marginTop: 10}}
-                            title="Buy x3"
-                            onClick={() => handleSubmit(3)}
-                        />
+                        {
+                            !Boolean(balance && (balance > formattedPrice))
+                            ?
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice * 3))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Not enough PARAD"
+                                onClick={() => handleSubmit(null)}
+                            />
+                            :
+                            <GreyButton
+                                isActive={Boolean(balance && (balance > formattedPrice * 3))}
+                                style={{width: "100%", marginTop: 10}}
+                                title="Buy x3"
+                                onClick={() => handleSubmit(3)}
+                            />
+                        }    
                     </div>
                 </div>
             </div>

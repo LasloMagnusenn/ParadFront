@@ -56,13 +56,18 @@
 }
 
 .topic_item__container__debates {
+  transform: rotateX(180deg);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
   padding-top: 30px;
+  padding-bottom: 30px;
   gap: 30px;
   width: 100%;
+  overflow-x: scroll;
+  max-height: 670px;
 }
 
 .debates {

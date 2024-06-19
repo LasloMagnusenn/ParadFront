@@ -8,6 +8,7 @@ import { SVG } from "@/../public/static/images/svg/svg";
 import DebateAnswer from "./DebateAnswer";
 import BackMobile from "@/components/buttons/BackMobile";
 import AdminDebate from "../admin/AdminDebate";
+import PurpleButton from "@/components/buttons/Purple";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
   return (
@@ -24,6 +25,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
             <div className={styles.debate_item__container__info__first__info}>
               <h1>{debate.status}</h1>
               <h4>{debate?.metadata?.point || debate.point}</h4>
+              <Image src={debate.metadata?.preview as string} alt="preview" width={306} height={306}></Image>
             </div>
           </div>
           <div className={styles.debate_item__container__info__second}>
@@ -47,12 +49,19 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
             </div>
             <div className={styles.pc}>
               <GreyButton style={{ marginTop: 25 }} title="Invite Friends" />
+              <a href="#answers"><PurpleButton style={{ marginTop: 25 }} title="Debate" /></a>
             </div>
             <div className={styles.mobile}>
               <GreyButton
                 style={{ marginTop: 10, width: "100%" }}
                 title="Invite Friends"
               />
+              <a href="#answers">
+                <PurpleButton
+                  style={{ marginTop: 10, width: "100%" }}
+                  title="Debate"
+                />
+              </a>
             </div>
           </div>
           <div
@@ -64,7 +73,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
         <AdminDebate dispute={{ groupId: topicID, groupIndex: debate.id }} />
 
-        <div className={styles.debate_item__container__answers}>
+        <div className={styles.debate_item__container__answers} id="answers">
           <div className={styles.debate_item__container__answers__head}>
             <h1>Answers</h1>
             <Image

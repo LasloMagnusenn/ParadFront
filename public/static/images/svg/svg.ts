@@ -13,6 +13,8 @@ import horizontalLine4 from "./horizontalLine4.svg";
 import horizontalLine5 from "./horizontalLine5.svg";
 import lightning from "./lightning.svg";
 import people from "./people.svg";
+import dollarSquare from "./dollar-square.svg";
+import profile2User from "./profile-2user.svg"
 
 export const SVG = {
   cubes,
@@ -30,4 +32,6 @@ export const SVG = {
   horizontalLine5,
   lightning,
   people,
+  dollarSquare,
+  profile2User,
 };

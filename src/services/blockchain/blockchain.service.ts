@@ -243,6 +243,7 @@ export const blockchainService = {
 
       return debates;
     } catch (error) {
+      console.log(error)
       throw new Error();
     }
   },

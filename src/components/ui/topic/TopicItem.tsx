@@ -4,9 +4,8 @@ import DebateItems from "../debate/DebateItems";
 import styles from "@/styles/components/ui/topic/topic-item.module.css";
 import styleshotDebates from "@/styles/pages/debates.module.css";
 import BackMobile from "@/components/buttons/BackMobile";
-import HotDebateItems from "../debate/HotDebateItems";
 import PurpleButton from "@/components/buttons/Purple";
-import HotDebates from "@/components/screens/debates/HotDebates";
+import { HotDebatesPreloaded } from "@/components/screens/debates/HotDebates";
 
 export default function TopicItem({ topic }: ITopicData) {
   const hotDebatesTopic: IDebatesData = {
@@ -38,41 +37,24 @@ export default function TopicItem({ topic }: ITopicData) {
         </div>
       </div>
       <div className={styles.topic_item__container}>
-        <div id="hot-debates" className={styleshotDebates.debates__container__hot_debates}>
-          <div>
-            <h4 className="golden_color">Almost Finished</h4>
-            <h1>Hot Debates</h1>
+        {
+          hotDebatesExist && 
+          <div id="hot-debates" className={styleshotDebates.debates__container__hot_debates}>
+            <div>
+              <h4 className="golden_color">Almost Finished</h4>
+              <h1>Hot Debates</h1>
+            </div>
+            <HotDebatesPreloaded debates={hotDebatesTopic} topicId={topic.id}/>
           </div>
-          <HotDebates/>
-        </div>
+        }
+        
         <div className={styles.debates}>
-          {hotDebatesExist && (
-              <div>
-                <div className={styles.topic_item__container__head}>
-                  <h2>Hot Debates</h2>
-                  <div className={styles.pc}>
-                    <BackButton title="Go Back"/>
-                  </div>
-                </div>
-
-                <div className={styles.topic_item__container__debates}>
-                  {hotDebatesTopic?.debates.map((debate) => (
-                      <HotDebateItems
-                          key={debate.id}
-                          id={topic?.id}
-                          debate={debate}
-                      />
-                  ))}
-                </div>
-              </div>
-          )}
 
           {coldDebatesExist && (
               <div>
-                {/* <div className={styles.topic_item__container__head}>
-                <h1>Debates</h1>
-              </div> */}
-
+                <div className={styles.topic_item__container__head}>
+                <h1>{topic.title} - Debates</h1>
+              </div>
                 <div className={styles.topic_item__container__debates}>
                   {coldDebatesTopic?.debates.map((debate) => (
                       <DebateItems key={debate.id} id={topic?.id} debate={debate}/>

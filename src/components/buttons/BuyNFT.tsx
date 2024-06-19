@@ -85,7 +85,7 @@ export default function BuyNFTButton({
         <BuyNFTModalButton
             button={
               <button
-                  className={`${styles.green__button} ${styles.green__button__text} ${
+                  className={`${styles.purple__button} ${styles.purple__button__text} ${
                       isActive ? styles.active : ""
                   } ${isFullWidthInMobile ? styles.mobile_width : ""}`}
                   type={type}
@@ -93,17 +93,13 @@ export default function BuyNFTButton({
               >
                 {!hideCubes && (
                     <Image
-                        className={styles.green__button__cubes}
+                        className={styles.purple__button__cubes}
                         src={SVG.hugeCubesDark}
                         alt="cubes"
                         style={{color: "black"}}
                     />
                 )}
-                {balance && formattedPrice && balance >= formattedPrice
-                    ? Number(allowance) >= formattedPrice
-                        ? title
-                        : "Approve"
-                    : "Not Enough Parad"}
+                Buy
               </button>
             }
             basePrice={price}
