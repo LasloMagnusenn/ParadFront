@@ -14,75 +14,83 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
   return (
     <div className={styles.debate_item}>
       <div className={styles.debate_item__container}>
+
         <div className={styles.debate_item__container__info}>
+
+            <img
+                alt="preview"
+                src={debate.metadata?.preview as string}
+                className={styles.debate_item_preview}
+            />
+
           <div className={styles.debate_item__container__info__first}>
+
             <div className={styles.debate_item__container__info__first__head}>
               <h4 className="purple_color">Topic #{topicID}</h4>
               <div className={styles.mobile}>
-                <BackMobile title="Go Back" />
+                <BackMobile title="Go Back"/>
               </div>
             </div>
             <div className={styles.debate_item__container__info__first__info}>
-              <h1>{debate.status}</h1>
-              <h4>{debate?.metadata?.point || debate.point}</h4>
-              <Image src={debate.metadata?.preview as string} alt="preview" width={306} height={306}></Image>
+              <h1>{debate?.metadata?.point || debate.point}</h1>
             </div>
-          </div>
-          <div className={styles.debate_item__container__info__second}>
-            <div className={styles.debate_item__container__info__second__info}>
-              <h2 className="purple_color">{debate.prizePool} $Parad</h2>
-              <p className="purple_color">Prize Pool</p>
+
+            <div className={styles.debate_item__container__info__second}>
+              <div className={styles.debate_item__container__info__second__info}>
+                <h2 className="purple_color">{debate.prizePool} $Parad</h2>
+                <p className="purple_color">Prize Pool</p>
+              </div>
+
+              <div className={styles.debate_item__container__info__second__info}>
+                <h2>
+                  {debate.qtyMembers}/{debate.needQtyMembers}
+                </h2>
+                <p>Amount Of Participants</p>
+              </div>
+
+              <div className={styles.debate_item__container__info__second__info}>
+                <h2>{debate.status}</h2>
+                <p>Status</p>
+              </div>
             </div>
-            <div className={styles.debate_item__container__info__second__info}>
-              <h2>
-                {topicID && (
-                  <Participating topicId={topicID} debateId={debate.id} />
-                )}
-              </h2>
-              <p>Status</p>
-            </div>
-            <div className={styles.debate_item__container__info__second__info}>
-              <h2>
-                {debate.qtyMembers}/{debate.needQtyMembers}
-              </h2>
-              <p>Amount Of Participants</p>
-            </div>
+
             <div className={styles.pc}>
-              <GreyButton style={{ marginTop: 25 }} title="Invite Friends" />
-              <a href="#answers"><PurpleButton style={{ marginTop: 25 }} title="Debate" /></a>
+              <a href="#answers"><PurpleButton style={{marginTop: 25}} title="Debate"/></a>
+              <GreyButton style={{marginTop: 25}} title="Invite Friends"/>
             </div>
             <div className={styles.mobile}>
-              <GreyButton
-                style={{ marginTop: 10, width: "100%" }}
-                title="Invite Friends"
-              />
               <a href="#answers">
                 <PurpleButton
-                  style={{ marginTop: 10, width: "100%" }}
-                  title="Debate"
+                    style={{marginTop: 10, width: "100%"}}
+                    title="Debate"
                 />
               </a>
+              <GreyButton
+                  style={{marginTop: 10, width: "100%"}}
+                  title="Invite Friends"
+              />
             </div>
           </div>
-          <div
-            className={`${styles.debate_item__container__info__third} ${styles.pc}`}
-          >
-            <BackButton style={{ width: 150 }} title="Back" />
+
+
+          <div className={`${styles.debate_item__container__info__third} ${styles.pc}`}>
+            <BackButton style={{width: 150}} title="Back"/>
           </div>
         </div>
 
-        <AdminDebate dispute={{ groupId: topicID, groupIndex: debate.id }} />
+
+        <AdminDebate dispute={{groupId: topicID, groupIndex: debate.id}}/>
 
         <div className={styles.debate_item__container__answers} id="answers">
           <div className={styles.debate_item__container__answers__head}>
             <h1>Answers</h1>
             <Image
-              className={styles.pc}
-              src={SVG.horizontalLine2}
-              alt="Horizontal Line"
+                className={styles.pc}
+                src={SVG.horizontalLine2}
+                alt="Horizontal Line"
             />
             <Image
-              className={styles.mobile}
+                className={styles.mobile}
               src={SVG.horizontalLine3}
               alt="Horizontal Line"
             />
@@ -118,3 +126,46 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
     </div>
   );
 }
+
+
+
+
+/*
+* <div className={styles.debate_item__container__info__second}>
+            <div className={styles.debate_item__container__info__second__info}>
+              <h2 className="purple_color">{debate.prizePool} $Parad</h2>
+              <p className="purple_color">Prize Pool</p>
+            </div>
+            <div className={styles.debate_item__container__info__second__info}>
+              <h2>
+                {topicID && (
+                  <Participating topicId={topicID} debateId={debate.id} />
+                )}
+              </h2>
+              <p>Status</p>
+            </div>
+            <div className={styles.debate_item__container__info__second__info}>
+              <h2>
+                {debate.qtyMembers}/{debate.needQtyMembers}
+              </h2>
+              <p>Amount Of Participants</p>
+            </div>
+            <div className={styles.pc}>
+              <GreyButton style={{ marginTop: 25 }} title="Invite Friends" />
+              <a href="#answers"><PurpleButton style={{ marginTop: 25 }} title="Debate" /></a>
+            </div>
+            <div className={styles.mobile}>
+              <GreyButton
+                style={{ marginTop: 10, width: "100%" }}
+                title="Invite Friends"
+              />
+              <a href="#answers">
+                <PurpleButton
+                  style={{ marginTop: 10, width: "100%" }}
+                  title="Debate"
+                />
+              </a>
+            </div>
+          </div>
+*
+* */
