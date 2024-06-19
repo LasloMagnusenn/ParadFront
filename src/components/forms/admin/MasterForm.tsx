@@ -6,10 +6,11 @@ import {
   RevokeRoleForm,
 } from "./module/RoleForms";
 import {
-  SetDisputePointForm,
-  SetIsHotDisputeForm,
-  SetStatusDisputeForm,
-  UpdateUriForDisputeForm,
+    CreateDisputeForm,
+    SetDisputePointForm,
+    SetIsHotDisputeForm,
+    SetStatusDisputeForm, UpdateGroupIdURIForm,
+    UpdateUriForDisputeForm,
 } from "./module/DisputeForms";
 import {
   SetPARADContractForm,
@@ -18,16 +19,11 @@ import {
 } from "./module/ContractForms";
 import { ReceiveERC20Form, WithdrawPARADForm } from "./module/WithdrawForms";
 import styles from "@/styles/components/forms/admin-forms.module.css";
-import { CreateDebatesModalButton } from "@/components/modal/CreateDebates";
 
 export default function MasterForm() {
   return (
     <div className={styles.master_form}>
-      <div className={styles.master_form__dispute}>
-        <h2 className={"purple_color"}>Create Dispute Modal</h2>
-        <CreateDebatesModalButton />
-      </div>
-
+      <CreateDisputeForm/>
       <GrantRoleForm />
       <RevokeRoleForm />
       <RenounceRoleForm />
@@ -40,6 +36,7 @@ export default function MasterForm() {
       <SetSporeNFTForm />
       <ReceiveERC20Form />
       <WithdrawPARADForm />
+      <UpdateGroupIdURIForm />
     </div>
   );
 }

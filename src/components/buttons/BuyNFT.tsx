@@ -13,7 +13,8 @@ import {
   useParadBalance,
   useParadDecimals,
 } from "@/hooks/useContractData";
-import { useEffect, useMemo } from "react";
+import {useEffect, useMemo, useState} from "react";
+import {BuyNFTModalButton} from "@/components/modal/BuyNFT";
 
 interface BuyNFTButtonProps {
   title: string;
@@ -26,7 +27,18 @@ interface BuyNFTButtonProps {
   hideCubes?: boolean;
   isFullWidthInMobile?: boolean;
   style?: React.CSSProperties;
+  tokenURI: string;
 }
+
+
+const isZeroAddress = (address: string) => {
+  return /^0x0+$/.test(address);
+};
+
+const isEthereumAddress = (address: string) => {
+  return /^0x[a-fA-F0-9]{40}$/.test(address);
+};
+
 
 export default function BuyNFTButton({
   title,
@@ -39,12 +51,28 @@ export default function BuyNFTButton({
   style,
   hideCubes,
   isFullWidthInMobile,
+  tokenURI
 }: BuyNFTButtonProps) {
   const { address } = useAccount();
 
   const decimals = useParadDecimals();
   const { allowance } = useParadAllowance(address);
   const { balance } = useParadBalance(address);
+  const [referrer, setReferrer] = useState<null | string>(null);
+
+
+  useEffect(() => {
+    if (address) {
+      const partnerAddressFromUrl = new URLSearchParams(window.location.search).get("ref");
+      if(partnerAddressFromUrl &&
+          !isZeroAddress(partnerAddressFromUrl as string) &&
+          isEthereumAddress(partnerAddressFromUrl as string)) {
+        setReferrer(partnerAddressFromUrl);
+      } else {
+        setReferrer(address);
+      }
+    }
+  }, [address]);
 
   const formattedPrice = useMemo(() => {
     return decimals ? price * 10 ** decimals : 0;
@@ -53,18 +81,19 @@ export default function BuyNFTButton({
   const { write: approveWrite, txStatus: approveTxStatus } = useApproveWrite({
     amount: formattedPrice,
   });
+  console.log("DISPUTE INFO:", referrer, tokenURI)
   const { write: buyWrite } = useBuyNftInDisputeWrite({
     topicId,
     debateId,
     answerId,
     price: formattedPrice,
-    // Temporarily hardcoding the referrer address !!!
-    referrer: "0xeF0A5C14e968fd6f7090BB8E184c7e7Ed87095Df",
+    referrer: referrer as `0x${string}`,
+    tokenURI: tokenURI as string
   });
 
-  const handleClick = async () => {
-    if (balance && formattedPrice && balance >= formattedPrice) {
-      if (Number(allowance) >= formattedPrice) {
+  const handleBuyNFT = async (multiplier: number) => {
+    if (balance && formattedPrice && balance >= formattedPrice * multiplier) {
+      if (Number(allowance) >= formattedPrice * multiplier) {
         buyWrite();
       } else {
         approveWrite();
@@ -79,27 +108,29 @@ export default function BuyNFTButton({
   }, [approveTxStatus]);
 
   return (
-    <button
-      className={`${styles.green__button} ${styles.green__button__text} ${
-        isActive ? styles.active : ""
-      } ${isFullWidthInMobile ? styles.mobile_width : ""}`}
-      type={type}
-      style={style}
-      onClick={handleClick}
-    >
-      {!hideCubes && (
-        <Image
-          className={styles.green__button__cubes}
-          src={SVG.hugeCubesDark}
-          alt="cubes"
-          style={{ color: "black" }}
+        <BuyNFTModalButton
+            button={
+              <button
+                  className={`${styles.purple__button} ${styles.purple__button__text} ${
+                      isActive ? styles.active : ""
+                  } ${isFullWidthInMobile ? styles.mobile_width : ""}`}
+                  type={type}
+                  style={style}
+              >
+                {!hideCubes && (
+                    <Image
+                        className={styles.purple__button__cubes}
+                        src={SVG.hugeCubesDark}
+                        alt="cubes"
+                        style={{color: "black"}}
+                    />
+                )}
+                Buy
+              </button>
+            }
+            basePrice={price}
+            formattedPrice={formattedPrice}
+            handleBuyNFT={handleBuyNFT}
         />
-      )}
-      {balance && formattedPrice && balance >= formattedPrice
-        ? Number(allowance) >= formattedPrice
-          ? title
-          : "Approve"
-        : "Not Enough Parad"}
-    </button>
   );
 }

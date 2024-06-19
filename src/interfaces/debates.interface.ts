@@ -10,6 +10,7 @@ export interface IMetadata {
       id: number;
       answer: string;
       image: string;
+      tokenURI: string;
     }
   ];
 }
@@ -35,6 +36,7 @@ export interface IDebate {
 export interface IDebatesData {
   id: number | string;
   title?: string;
+  participantsCount: number;
   image?: string;
   debates: IDebate[];
 }

@@ -5,16 +5,17 @@ import Image from "next/image";
 import { SVG } from "../../../../public/static/images/svg/svg";
 
 export default function TopicItems({ topic }: ITopicData) {
-  const participants = topic?.debates.reduce
-    ? topic.debates.reduce((acc, debate) => acc + debate.qtyMembers, 0)
-    : 0;
+  //const participants = topic?.debates.reduce
+  //  ? topic.debates.reduce((acc, debate) => acc + debate.qtyMembers, 0)
+  //  : 0;
+  const participants = topic.participantsCount;
 
   return (
     <Link className={styles.topic_items} href={`/debates/topic-${topic.id}`}>
       <div className={styles.topic_items__container}>
         {topic?.image && (
           <Image
-            src={topic?.image}
+            src={topic.image}
             className={styles.topic_items__container__img}
             alt="topic"
             height={306}

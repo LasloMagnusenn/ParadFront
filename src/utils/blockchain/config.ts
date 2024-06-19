@@ -3,7 +3,7 @@
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import * as wallets from "@rainbow-me/rainbowkit/wallets";
 import { createConfig, http } from "wagmi";
-import { bsc } from "wagmi/chains";
+import { bscTestnet } from "wagmi/chains";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_PROJECT_ID || "";
 
@@ -43,9 +43,9 @@ const connectors = connectorsForWallets(
 
 export const config = createConfig({
   connectors,
-  chains: [bsc],
+  chains: [bscTestnet],
   transports: {
-    [bsc.id]: http(),
+    [bscTestnet.id]: http(),
   },
   ssr: true,
 });

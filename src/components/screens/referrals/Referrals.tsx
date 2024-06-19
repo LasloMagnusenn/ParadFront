@@ -81,6 +81,10 @@ export default function Referrals() {
     !refInfo || !refInfo[0].length || !refInfo[1].length || !refInfo[2].length;
   const isMobile = width && width <= 760;
 
+  const handleInviteCLick = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/?ref=${address}`)
+  }
+
   return (
     <div className={styles.referrals}>
       <div className={styles.referrals__container}>
@@ -91,6 +95,7 @@ export default function Referrals() {
             style={{ width: 203, height: 50 }}
             isFullWidthInMobile
             hideCubes
+            onClick={handleInviteCLick}
           />
         </div>
         <div className={styles.referrals__container__body}>

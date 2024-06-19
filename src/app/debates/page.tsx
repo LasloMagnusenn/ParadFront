@@ -16,6 +16,7 @@ import { CreateDebatesModalButton } from "@/components/modal/CreateDebates";
 import { PNG } from "@/../public/static/images/png/png";
 import HotDebates from "@/components/screens/debates/HotDebates";
 
+
 export const metadata: Metadata = {
   title: "Debates | Paradigma",
 };
@@ -25,7 +26,7 @@ export default async function DebatesPage() {
   // const _data = await getCachedData();
   const data = await getAll();
 
-  // console.log(data);
+  //console.log("TOPICS DATA:", data);
 
   return (
     <div className={styles.debates}>
@@ -83,8 +84,7 @@ export default async function DebatesPage() {
             <h4 className="golden_color">Almost Finished</h4>
             <h1>Hot Debates</h1>
           </div>
-          {/* Temporary !!! */}
-          {data && <HotDebates topic={data?.topics[0]} />}
+          <HotDebates/>
         </div>
         <div id="topics" className={styles.debates__container__debates}>
           <div>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ed8ee34b-e44e-4dcd-ada4-4506b8e8e9ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/utils/blockchain/loadToPinata.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/forms/admin/MasterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/forms/admin/MasterForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modal/CreateDebates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modal/CreateDebates.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/screens/referrals/Referrals.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/screens/referrals/Referrals.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/DebateAnswer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/DebateAnswer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/DebateItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/DebateItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useContractWrite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useContractWrite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useContractWriteForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useContractWriteForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/debates.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/debates.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/transaction.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/transaction.interface.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2i2ofN1Llno7ij30SDjflBz5OnW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/bohdan/Documents/development/ParadFront/src/utils/blockchain",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "ts.external.directory.path": "C:\\Users\\bohdan\\Documents\\development\\ParadFront\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bohdan\Documents\development\ParadFront\src\utils\blockchain" />
+      <recent name="C:\Users\bohdan\Documents\development\ParadFront\src\components\modal" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17011.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ed8ee34b-e44e-4dcd-ada4-4506b8e8e9ea" name="Changes" comment="" />
+      <created>1718698135215</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718698135215</updated>
+      <workItem from="1718698136740" duration="3008000" />
+      <workItem from="1718705173967" duration="16147000" />
+      <workItem from="1718800914852" duration="10995000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

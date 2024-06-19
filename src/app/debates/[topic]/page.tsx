@@ -4,6 +4,7 @@ import { getNumberFromString } from "@/utils/converter";
 import styles from "@/styles/pages/debates-topic.module.css";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import HotDebates from "@/components/screens/debates/HotDebates";
 
 export const metadata: Metadata = {
   title: "Topic | Paradigma",
@@ -24,6 +25,6 @@ export default async function TopicPage({
   }
 
   return (
-    <div className={styles.topic}>{topic && <TopicItem topic={topic} />}</div>
+        <div className={styles.topic}>{topic && <TopicItem topic={topic}/>}</div>
   );
 }

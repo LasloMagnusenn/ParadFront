@@ -7,6 +7,7 @@ import {
 } from "@/utils/blockchain/blockchainData";
 import { readContract, readContracts } from "@wagmi/core";
 import {
+  IDebatesData,
   IMetadata,
   ITopicData,
   ITopicsData,
@@ -15,6 +16,7 @@ import {
   convertBigIntArrayToNumber,
   convertEnumToString,
 } from "@/utils/converter";
+import { title } from "process";
 
 const contract = {
   address: sporeAddress,
@@ -50,6 +52,19 @@ const getTopicList = async (): Promise<bigint[]> => {
   }
 };
 
+const getBulkIsHotForGroups = async (): Promise<bigint[]> => {
+  try {
+    const result = await readContract(coreConfig, {
+      ...contract,
+      functionName: "getBulkIsHotForGroups",
+    });
+
+    return result as bigint[];
+  } catch (error) {
+    throw new Error("Failed to get topics:" + error || "Unknown error");
+  }
+}
+
 const getUriForDispute = async (
   topicId: number | string,
   debateId: number | string
@@ -74,6 +89,7 @@ const getUriForDispute = async (
   }
 };
 
+
 const getDisputesByTopicId = async (topicID: number): Promise<ITopicData> => {
   try {
     const rawResult = await readContract(coreConfig, {
@@ -82,11 +98,26 @@ const getDisputesByTopicId = async (topicID: number): Promise<ITopicData> => {
       args: [topicID],
     });
 
+    const topicURIs = await readContract(coreConfig, {
+      ...contract,
+      functionName: "groupIdURIs",
+      args: [topicID]
+    });
+
+    const topicParticipants = await readContract(coreConfig, {
+      ...contract,
+      functionName: "getParticipantsInGroup",
+      args: [topicID]
+    });
+
     const result: ITopicData = {
       topic: {
         id: topicID,
         debates: (rawResult as any).map((debate: any, index: number) => ({
           id: index + 1,
+          title: "test title",
+          image: "" + topicURIs,
+          participantsCount: Number(topicParticipants),
           status: convertEnumToString(debate.status),
           isHot: debate.isHot,
           point: debate.point,
@@ -122,10 +153,35 @@ const getDisputesByTopicList = async (
       })),
     });
 
+    const topicsURIs = await readContracts(coreConfig, {
+      contracts: topicList.map((topicId) => ({
+        ...contract,
+        functionName: "groupIdURIs",
+        args: [topicId],
+        topicId,
+      })),
+    });
+
+    //console.log(topicsURIs)
+
+    const topicsParticipants = await readContracts(coreConfig, {
+      contracts: topicList.map((topicId) => ({
+        ...contract,
+        functionName: "getParticipantsInGroup",
+        args: [topicId],
+        topicId,
+      })),
+    });
+
+    //console.log(topicsImages, topicsParticipants);
+
     const result: ITopicsData = {
       topics: await Promise.all(
         rawResult.map(async (item: any, topicIndex: number) => ({
           id: topicIndex + 1,
+          title: "test title",
+          image: "" + topicsURIs[topicIndex].result,
+          participantsCount: Number(topicsParticipants[topicIndex].result),
           debates: await Promise.all(
             item.result.map(async (debate: any, debateIndex: number) => {
               const { uri, metadata } = await getUriForDispute(
@@ -187,6 +243,7 @@ export const blockchainService = {
 
       return debates;
     } catch (error) {
+      console.log(error)
       throw new Error();
     }
   },
