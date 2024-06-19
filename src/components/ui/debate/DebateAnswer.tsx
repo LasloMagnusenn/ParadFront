@@ -47,6 +47,7 @@ export default function DebateAnswer({
           debateId={debateId}
           answerId={answerId}
           price={price}
+          tokenURI={answerData?.tokenURI as string}
         />
       </div>
     </div>

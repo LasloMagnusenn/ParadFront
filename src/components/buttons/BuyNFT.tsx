@@ -13,7 +13,7 @@ import {
   useParadBalance,
   useParadDecimals,
 } from "@/hooks/useContractData";
-import { useEffect, useMemo } from "react";
+import {useEffect, useMemo, useState} from "react";
 import {BuyNFTModalButton} from "@/components/modal/BuyNFT";
 
 interface BuyNFTButtonProps {
@@ -27,7 +27,18 @@ interface BuyNFTButtonProps {
   hideCubes?: boolean;
   isFullWidthInMobile?: boolean;
   style?: React.CSSProperties;
+  tokenURI: string;
 }
+
+
+const isZeroAddress = (address: string) => {
+  return /^0x0+$/.test(address);
+};
+
+const isEthereumAddress = (address: string) => {
+  return /^0x[a-fA-F0-9]{40}$/.test(address);
+};
+
 
 export default function BuyNFTButton({
   title,
@@ -40,14 +51,28 @@ export default function BuyNFTButton({
   style,
   hideCubes,
   isFullWidthInMobile,
+  tokenURI
 }: BuyNFTButtonProps) {
   const { address } = useAccount();
 
   const decimals = useParadDecimals();
   const { allowance } = useParadAllowance(address);
   const { balance } = useParadBalance(address);
+  const [referrer, setReferrer] = useState<null | string>(null);
 
 
+  useEffect(() => {
+    if (address) {
+      const partnerAddressFromUrl = new URLSearchParams(window.location.search).get("ref");
+      if(partnerAddressFromUrl &&
+          !isZeroAddress(partnerAddressFromUrl as string) &&
+          isEthereumAddress(partnerAddressFromUrl as string)) {
+        setReferrer(partnerAddressFromUrl);
+      } else {
+        setReferrer(address);
+      }
+    }
+  }, [address]);
 
   const formattedPrice = useMemo(() => {
     return decimals ? price * 10 ** decimals : 0;
@@ -56,13 +81,14 @@ export default function BuyNFTButton({
   const { write: approveWrite, txStatus: approveTxStatus } = useApproveWrite({
     amount: formattedPrice,
   });
+  console.log("DISPUTE INFO:", referrer, tokenURI)
   const { write: buyWrite } = useBuyNftInDisputeWrite({
     topicId,
     debateId,
     answerId,
     price: formattedPrice,
-    // Temporarily hardcoding the referrer address !!!
-    referrer: "0xeF0A5C14e968fd6f7090BB8E184c7e7Ed87095Df",
+    referrer: referrer as `0x${string}`,
+    tokenURI: tokenURI as string
   });
 
   const handleBuyNFT = async (multiplier: number) => {

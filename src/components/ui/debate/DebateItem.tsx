@@ -1,4 +1,4 @@
-import Participating from "@/components/blockchain/Participating";
+"use client"
 import BackButton from "@/components/buttons/Back";
 import GreyButton from "@/components/buttons/Grey";
 import { IDebateData } from "@/interfaces/debates.interface";
@@ -9,20 +9,25 @@ import DebateAnswer from "./DebateAnswer";
 import BackMobile from "@/components/buttons/BackMobile";
 import AdminDebate from "../admin/AdminDebate";
 import PurpleButton from "@/components/buttons/Purple";
+import {useAccount} from "wagmi";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
+  const { address } = useAccount();
+
+  const handleInviteFriendClick = () => {
+    navigator.clipboard.writeText(`${window.location.origin}${location.pathname}/?ref=${address}`)
+  }
+
   return (
     <div className={styles.debate_item}>
       <div className={styles.debate_item__container}>
 
         <div className={styles.debate_item__container__info}>
-
-            <img
-                alt="preview"
-                src={debate.metadata?.preview as string}
-                className={styles.debate_item_preview}
-            />
-
+          <img
+              alt="preview"
+              src={debate.metadata?.preview as string}
+              className={styles.debate_item_preview}
+          />
           <div className={styles.debate_item__container__info__first}>
 
             <div className={styles.debate_item__container__info__first__head}>
@@ -56,7 +61,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
             <div className={styles.pc}>
               <a href="#answers"><PurpleButton style={{marginTop: 25}} title="Debate"/></a>
-              <GreyButton style={{marginTop: 25}} title="Invite Friends"/>
+              <GreyButton style={{marginTop: 25}} title="Invite Friends" onClick={handleInviteFriendClick}/>
             </div>
             <div className={styles.mobile}>
               <a href="#answers">
@@ -68,10 +73,10 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
               <GreyButton
                   style={{marginTop: 10, width: "100%"}}
                   title="Invite Friends"
+                  onClick={handleInviteFriendClick}
               />
             </div>
           </div>
-
 
           <div className={`${styles.debate_item__container__info__third} ${styles.pc}`}>
             <BackButton style={{width: 150}} title="Back"/>

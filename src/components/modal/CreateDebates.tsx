@@ -18,17 +18,17 @@ export function CreateDebatesModalButton() {
   const isAdmin = useIsAdmin(address);
 
   return (
-    <>
-      {isAdmin && (
-        <>
-          <GreyButton
-            onClick={() => setOpen((prev) => !prev)}
-            title="Create Dispute"
-          />
-          <CreateDebatesModal open={open} onClose={() => setOpen(false)} />
-        </>
-      )}
-    </>
+      <>
+        {(isAdmin || true) && (
+            <>
+              <GreyButton
+                  onClick={() => setOpen((prev) => !prev)}
+                  title="Create Dispute"
+              />
+              <CreateDebatesModal open={open} onClose={() => setOpen(false)} />
+            </>
+        )}
+      </>
   );
 }
 
@@ -53,8 +53,8 @@ export function CreateDebatesModal({ open, onClose }: CreateDebatesModalProps) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
+          modalRef.current &&
+          !modalRef.current.contains(event.target as Node)
       ) {
         onClose?.();
       }
@@ -82,100 +82,100 @@ export function CreateDebatesModal({ open, onClose }: CreateDebatesModalProps) {
   }, [formData]);
 
   return open ? (
-    <motion.div
-      className={styles.debates_modal}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.2 } }}
-      exit={{ opacity: 0 }}
-    >
-      <div className={styles.debates_modal__container} ref={modalRef}>
-        <h2 className="purple_color">Create Dispute</h2>
-        <p className={styles.debates_modal__container__close} onClick={onClose}>
-          &times;
-        </p>
-        <form
-          className={styles.debates_modal__container__form}
-          onSubmit={handleSubmit}
-        >
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Group ID</h2>
-            <input
-              min={1}
-              defaultValue={1}
-              type="number"
-              placeholder="Group ID"
-              name="groupId"
-              required
-            />
-          </div>
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Status</h2>
-            <input
-              min={0}
-              defaultValue={0}
-              type="number"
-              placeholder="Status"
-              name="status"
-              required
-            />
-          </div>
+      <motion.div
+          className={styles.debates_modal}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.2 } }}
+          exit={{ opacity: 0 }}
+      >
+        <div className={styles.debates_modal__container} ref={modalRef}>
+          <h2 className="purple_color">Create Dispute</h2>
+          <p className={styles.debates_modal__container__close} onClick={onClose}>
+            &times;
+          </p>
+          <form
+              className={styles.debates_modal__container__form}
+              onSubmit={handleSubmit}
+          >
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Group ID</h2>
+              <input
+                  min={1}
+                  defaultValue={1}
+                  type="number"
+                  placeholder="Group ID"
+                  name="groupId"
+                  required
+              />
+            </div>
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Status</h2>
+              <input
+                  min={0}
+                  defaultValue={0}
+                  type="number"
+                  placeholder="Status"
+                  name="status"
+                  required
+              />
+            </div>
 
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Title</h2>
-            <input placeholder="Title" name="point" required />
-          </div>
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Amount Of Members</h2>
-            <input
-              min={0}
-              defaultValue={0}
-              type="number"
-              placeholder="Amount Of Members"
-              name="qtyMembers"
-              required
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Title</h2>
+              <input placeholder="Title" name="point" required />
+            </div>
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Amount Of Members</h2>
+              <input
+                  min={0}
+                  defaultValue={0}
+                  type="number"
+                  placeholder="Amount Of Members"
+                  name="qtyMembers"
+                  required
+              />
+            </div>
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Required Amount Of Members</h2>
+              <input
+                  min={0}
+                  defaultValue={100}
+                  type="number"
+                  placeholder="Required Amount Of Members"
+                  name="needQtyMembers"
+                  required
+              />
+            </div>
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Prize Pool</h2>
+              <input
+                  min={0}
+                  defaultValue={0}
+                  step="0.001"
+                  type="number"
+                  placeholder="Prize Pool"
+                  name="prizePool"
+                  required
+              />
+            </div>
+            <div className={styles.debates_modal__container__form__group}>
+              <h2>Amount Of Answers</h2>
+              <input
+                  min={0}
+                  defaultValue={3}
+                  type="number"
+                  placeholder="Quantity Of Answers"
+                  name="qtyAnswers"
+                  required
+              />
+            </div>
+            <GreyButton
+                type="submit"
+                style={{ width: "100%", marginTop: 10 }}
+                title="Create"
             />
-          </div>
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Required Amount Of Members</h2>
-            <input
-              min={0}
-              defaultValue={100}
-              type="number"
-              placeholder="Required Amount Of Members"
-              name="needQtyMembers"
-              required
-            />
-          </div>
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Prize Pool</h2>
-            <input
-              min={0}
-              defaultValue={0}
-              step="0.001"
-              type="number"
-              placeholder="Prize Pool"
-              name="prizePool"
-              required
-            />
-          </div>
-          <div className={styles.debates_modal__container__form__group}>
-            <h2>Amount Of Answers</h2>
-            <input
-              min={0}
-              defaultValue={3}
-              type="number"
-              placeholder="Quantity Of Answers"
-              name="qtyAnswers"
-              required
-            />
-          </div>
-          <GreyButton
-            type="submit"
-            style={{ width: "100%", marginTop: 10 }}
-            title="Create"
-          />
-        </form>
-      </div>
-    </motion.div>
+          </form>
+        </div>
+      </motion.div>
   ) : undefined;
 }

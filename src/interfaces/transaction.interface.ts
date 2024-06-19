@@ -20,4 +20,5 @@ export interface IBuyNftInDisputeWrite {
   answerId: number;
   price: Amount;
   referrer: `0x${string}`;
+  tokenURI: string;
 }

@@ -102,10 +102,11 @@ export const useBuyNftInDisputeWrite = ({
   answerId,
   price,
   referrer,
+  tokenURI,
 }: IBuyNftInDisputeWrite) =>
   useContractWrite({
     address: sporeAddress,
     abi: sporeABI,
     functionName: "buyNftInDispute",
-    args: [topicId, debateId, answerId, price, referrer],
+    args: [topicId, debateId, answerId, price, referrer, tokenURI],
   });

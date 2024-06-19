@@ -10,6 +10,7 @@ export interface IMetadata {
       id: number;
       answer: string;
       image: string;
+      tokenURI: string;
     }
   ];
 }
