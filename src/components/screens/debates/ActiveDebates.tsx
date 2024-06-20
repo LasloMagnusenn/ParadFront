@@ -9,7 +9,7 @@ export default function ActiveDebates() {
   const { address } = useAccount();
   const data = useActiveDisputesForUser(address);
 
-  console.log(data.topics)
+  console.log("DATA:", data)
 
   return <div>{<ActiveDebatesItems topics={data?.topics} debatesIndexes={data.activeDebates} />}</div>;
 }

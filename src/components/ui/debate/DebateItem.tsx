@@ -10,9 +10,14 @@ import BackMobile from "@/components/buttons/BackMobile";
 import AdminDebate from "../admin/AdminDebate";
 import PurpleButton from "@/components/buttons/Purple";
 import {useAccount} from "wagmi";
+import { formatUnits } from "viem";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
   const { address } = useAccount();
+
+  const formattedPrizePool = (value: number) => Number(
+    formatUnits(BigInt(value), 18)
+  ).toFixed(2);
 
   const handleInviteFriendClick = () => {
     navigator.clipboard.writeText(`${window.location.origin}${location.pathname}/?ref=${address}`)
@@ -42,7 +47,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
             <div className={styles.debate_item__container__info__second}>
               <div className={styles.debate_item__container__info__second__info}>
-                <h2 className="purple_color">{debate.prizePool} $Parad</h2>
+                <h2 className="purple_color">{formattedPrizePool(debate.prizePool)} $Parad</h2>
                 <p className="purple_color">Prize Pool</p>
               </div>
 
@@ -109,7 +114,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                   <DebateAnswer
                     key={index}
                     topicId={Number(topicID ? topicID : 0)}
-                    debateId={Number(debate.id)}
+                    debateId={Number(debate.id) - 1}
                     answerId={index}
                     metaData={debate.metadata}
                   />

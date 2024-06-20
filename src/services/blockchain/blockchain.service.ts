@@ -254,7 +254,7 @@ const getDecimalsOfToken = async (address: `0x${string}`): Promise<number> => {
 };
 
 export const blockchainService = {
-  async getTopics(): Promise<ITopicsData> {
+  async getTopics(): Promise<ITopicsData | undefined> {
     try {
       const topicList = await getTopicList();
       const debates = await getDisputesByTopicList(topicList);
@@ -262,7 +262,7 @@ export const blockchainService = {
       return debates;
     } catch (error) {
       console.log(error)
-      throw new Error();
+      //throw new Error();
     }
   },
   async getDecimalsOfToken(address: `0x${string}`): Promise<number> {

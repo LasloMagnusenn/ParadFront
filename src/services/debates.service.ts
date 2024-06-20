@@ -73,8 +73,9 @@ const getCachedFilteredTopicsAndDebates = (
       );
       if (topic) {
         const debate = topic.debates.find(
-          (debate) => debate.id === Number(dispute.disputeId)
+          (debate) => Number(debate.id) === Number(dispute.disputeId) + 1
         );
+
         if (debate) {
           const existingTopic = filteredTopics.find(
             (filteredTopic) => filteredTopic.id === topic.id
