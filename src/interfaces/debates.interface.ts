@@ -36,7 +36,7 @@ export interface IDebate {
 export interface IDebatesData {
   id: number | string;
   title?: string;
-  participantsCount: number;
+  participantsCount?: number;
   image?: string;
   debates: IDebate[];
 }
@@ -44,7 +44,7 @@ export interface IDebatesData {
 export interface IDebateData {
   id?: number | string;
   debate: IDebate;
-  debatesIndexes: ActiveDebates;
+  debatesIndexes?: ActiveDebates;
 }
 
 export interface ITopicData {
@@ -57,4 +57,10 @@ export interface ITopicsData {
 
 export interface ITopicsDataOrUndefined {
   topics?: IDebatesData[];
+}
+
+
+export interface ITopicMetadata {
+  name: string;
+  image: string;
 }
