@@ -205,6 +205,7 @@ const getDisputesByTopicList = async (
                 topicIndex + 1,
                 debateIndex
               );
+
               return {
                 id: debateIndex + 1,
                 status: convertEnumToString(debate.status),
