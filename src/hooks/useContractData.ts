@@ -40,6 +40,16 @@ export const useParadBalance = (address?: string) => {
   return { balance, formattedBalance };
 };
 
+export const useAdminWalletAddress = () => {
+  const {data} = useReadContract({
+    address: sporeAddress,
+    abi: sporeABI,
+    functionName: "adminWallet",
+  });
+  
+  return data;
+}
+
 export const useParadAllowance = (address?: `0x${string}`) => {
   const { data: allowance }: { data?: bigint } = useReadContract({
     address: paradAddress,

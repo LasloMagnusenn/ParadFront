@@ -9,6 +9,7 @@ import {
   useBuyNftInDisputeWrite,
 } from "@/hooks/useContractWrite";
 import {
+  useAdminWalletAddress,
   useParadAllowance,
   useParadBalance,
   useParadDecimals,
@@ -57,6 +58,7 @@ export default function BuyNFTButton({
   const { address } = useAccount();
 
   const decimals = useParadDecimals();
+  const adminWalletAddress = useAdminWalletAddress();
   const { allowance } = useParadAllowance(address);
   const { balance } = useParadBalance(address);
   const [ referrer, setReferrer ] = useState<null | string>(null);
@@ -64,17 +66,15 @@ export default function BuyNFTButton({
 
 
   useEffect(() => {
-    if (address) {
+    if (address && adminWalletAddress) {
       const partnerAddressFromUrl = new URLSearchParams(window.location.search).get("ref");
-
-      if (!isEthereumAddress(partnerAddressFromUrl as string)) {
+      
+      if (partnerAddressFromUrl && !isEthereumAddress(partnerAddressFromUrl as string)) {
         notifyError("Referrer address is not valid");
-        return;
       }
 
       if (!partnerAddressFromUrl || isZeroAddress(partnerAddressFromUrl as string)) {
-        // READ contract adminWallet
-        setReferrer(null);
+        setReferrer(adminWalletAddress as string);
         return;
       }
 
@@ -85,7 +85,7 @@ export default function BuyNFTButton({
 
       setReferrer(partnerAddressFromUrl);
     }
-  }, [address]);
+  }, [address, adminWalletAddress]);
 
   const formattedPrice = useMemo(() => {
     return decimals ? price * 10 ** decimals : 0;
@@ -94,22 +94,14 @@ export default function BuyNFTButton({
   const { write: approveWrite, txStatus: approveTxStatus } = useApproveWrite({
     amount: formattedPrice * multiplier
   });
-  //console.log("DISPUTE INFO:", referrer, tokenURI)
-  console.log({
-    topicId,
-    debateId,
-    answerId,
-    price: formattedPrice * multiplier,
-    referrer: referrer as `0x${string}`,
-    tokenURI,
-  });
+
   const { write: buyWrite } = useBuyNftInDisputeWrite({
     topicId,
     debateId,
     answerId,
     price: formattedPrice * multiplier,
     referrer: referrer as `0x${string}`,
-    tokenURI: "some uri"
+    tokenURI: tokenURI
   });
 
 

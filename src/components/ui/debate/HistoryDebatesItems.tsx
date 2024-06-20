@@ -1,5 +1,5 @@
 import { ITopicsData } from "@/interfaces/debates.interface";
-import styles from "@/styles/components/ui/topic/topic-items.module.css";
+import styles from "@/styles/components/ui/topic/topic-items-account.module.css";
 import ActiveDebateItem from "./ActiveDebateItem";
 import { ActiveDebates } from "@/types/referral.type";
 

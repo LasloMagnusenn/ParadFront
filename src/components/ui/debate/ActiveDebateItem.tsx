@@ -11,8 +11,9 @@ export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes }
     ).toFixed(2);
 
       
-    const index = debatesIndexes?.findIndex(i => Number(i.topicId) === Number(topicID) && Number(i.disputeId) === Number(debate.id));
+    let index = debatesIndexes?.findIndex(i => Number(i.topicId) === Number(topicID) && Number(i.disputeId) === Number(debate.id));
 
+    index = 0;
 
     return (
         <>
@@ -41,10 +42,12 @@ export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes }
             <div className={styles.debate_item__container__info__bottom}>
                 <div className={styles.debate_item__container__info__text__bottom}>
                     <h4>{debate.metadata?.answer_data[Number(index)].answer}</h4>
-                    <span>Bet: {formattedPrizePool(debate.memberShares[Number(index)])} $PARAD </span>
+                    <span>Bet:  $PARAD </span>
                 </div>
             </div>
         </>
         
     );
 }
+
+// {formattedPrizePool(debate.memberShares[Number(index)])}

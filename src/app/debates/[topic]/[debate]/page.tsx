@@ -25,7 +25,7 @@ export default async function DebatePage({
     notFound();
   }
 
-  console.log(debate.metadata?.answer_data)
+  //console.log(debate.metadata?.answer_data)
 
   return (
     <div className={styles.debate}>
