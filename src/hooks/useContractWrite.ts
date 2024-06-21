@@ -23,6 +23,7 @@ export const useContractWrite = ({
   abi,
   functionName,
   args,
+  gasPrice
 }: IContractWrite) => {
   const config = {
     address: address,
@@ -30,6 +31,11 @@ export const useContractWrite = ({
     functionName: functionName,
     args: args,
   };
+
+  if (gasPrice) {
+    /* @ts-ignore */
+    config.gasPrice = gasPrice;
+  }
 
   const { data, status, error, isPending, isSuccess, writeContract } =
     useWriteContract();
@@ -113,6 +119,7 @@ export const useBuyNftInDisputeWrite = ({
     abi: sporeABI,
     functionName: "buyNftInDispute",
     args: [topicId, debateId, answerId, price, referrer, tokenURI],
+    gasPrice: 1500000000,
   });
 }
 
