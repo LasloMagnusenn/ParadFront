@@ -11,11 +11,12 @@ const paradABI: Abi = paradABIjson as Abi;
 
 
 const sporeAddress: `0x${string}` =
-  "0x5b50F68F2b148C0653B7be116A9Aa6d62A29eA39";
+  "0x332a21599592e64146B1f6Bf055b933f20fB2b93";
 const sporeNFTAddress: `0x${string}` =
-  "0xCB1a6A3CEfB8631b0517D6A3d179110118eC1f70";
+  "0x23A635C4b25604302d6640551C5c3A9D828aAcC9";
 const paradAddress: `0x${string}` =
-  "0xaeA3e77A6503260943788068A59A052c9cbdE014";
+  "0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C";
+
 
 export {
   sporeABI,
