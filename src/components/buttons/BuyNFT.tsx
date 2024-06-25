@@ -104,7 +104,6 @@ export default function BuyNFTButton({
     tokenURI: tokenURI
   });
 
-
   const handleBuyNFT = async (multiplier: number) => {
     setMultiplier(multiplier);
   };

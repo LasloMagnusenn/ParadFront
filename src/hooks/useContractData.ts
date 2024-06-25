@@ -1,9 +1,9 @@
-import { useReadContract } from "wagmi";
+import {useReadContract, useReadContracts} from "wagmi";
 import {
   paradAddress,
   paradABI,
   sporeABI,
-  sporeAddress,
+  sporeAddress, coreConfig,
 } from "@/utils/blockchain/blockchainData";
 import { formatUnits } from "viem";
 import { ActiveDebates, RawActiveDebates, Ref } from "@/types/referral.type";
@@ -11,6 +11,13 @@ import { useCallback, useEffect, useState } from "react";
 import { debatesService } from "@/services/debates.service";
 import { IDebatesData, ITopicsData } from "@/interfaces/debates.interface";
 import { blockchainService } from "@/services/blockchain/blockchain.service";
+import {readContracts} from "@wagmi/core";
+
+
+const sporeContractBase = {
+  address: sporeAddress,
+  abi: sporeABI,
+};
 
 export const useParadDecimals = () => {
   const { data: decimals }: { data?: number } = useReadContract({
@@ -107,13 +114,30 @@ export const useGetActiveDisputesForUser = (address?: string) => {
     functionName: "getActiveDisputesForUser",
     args: [address],
   });
+
+  // reading user indexes in disputes
+  const { data: indexesOfUserInDisputes } = useReadContracts({
+    contracts: rawDisputes?.map(item => {
+      return {
+        ...sporeContractBase,
+        functionName: "getIndexesOfUserInDispute",
+        args: [item[0], item[1], address],
+      }
+    })
+  });
+
+  // [0, 1]
+  console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
+
   
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
-      ? rawDisputes.map((item) => {
+      ? rawDisputes.map((item, key) => {
         return {
           topicId: item[0],
           disputeId: item[1],
+          /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
+          userIndex: indexesOfUserInDisputes?.[key].result?.[key],
         }
       })
       : undefined;

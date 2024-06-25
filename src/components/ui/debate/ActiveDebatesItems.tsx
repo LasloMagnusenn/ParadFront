@@ -9,7 +9,6 @@ export default function ActiveDebatesItems(props: {
   debatesIndexes: ActiveDebates;
 }) {
   const {topics, debatesIndexes} = props;
-
   return (
     <div className={styles.topic_items}>
       <div className={styles.topic_items__container}>
@@ -26,7 +25,12 @@ export default function ActiveDebatesItems(props: {
                   key={`${indexTopic}-${indexDebate}`}
                   className={styles.topic_items__container__debates__debate}
                 >
-                  <ActiveDebateItem id={topic.id} debate={debate} debatesIndexes={debatesIndexes}/>
+                  <ActiveDebateItem
+                      id={topic.id}
+                      debate={debate}
+                      debatesIndexes={debatesIndexes}
+                      userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
+                  />
                 </div>
               ))
             )

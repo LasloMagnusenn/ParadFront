@@ -3,15 +3,16 @@ import Link from "next/link";
 import { formatUnits } from "viem";
 import styles from "@/styles/components/ui/debate/debate-item-profile.module.css";
 import Image from "next/image";
+import {useAccount} from "wagmi";
 
 
-export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes }: IDebateData) {
+export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes, userIndex }: IDebateData & {userIndex: number}) {
     const formattedPrizePool = (value: number) => Number(
         formatUnits(BigInt(value), 18)
     ).toFixed(2);
 
-    let index = debatesIndexes?.findIndex(i => Number(i.topicId) === Number(topicID) && Number(i.disputeId) + 1 === Number(debate.id));
-    console.log("INDEX:", index)
+
+    console.log("INDEX:", userIndex)
 
     
     return (
@@ -23,7 +24,7 @@ export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes }
             >
                 {debate?.metadata?.preview && (
                 <Image
-                    src={debate?.metadata?.answer_data[Number(index)].image as string}
+                    src={debate?.metadata?.answer_data[userIndex].image as string}
                     className={styles.debate_item__container__img}
                     alt="topic"
                     height={306}
@@ -40,8 +41,8 @@ export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes }
             </div>
             <div className={styles.debate_item__container__info__bottom}>
                 <div className={styles.debate_item__container__info__text__bottom}>
-                    <h4>{debate.metadata?.answer_data[Number(index)].answer}</h4>
-                    <span>Bet: {formattedPrizePool(debate.memberShares[Number(index)])} $PARAD </span>
+                    <h4>{debate.metadata?.answer_data[userIndex].answer}</h4>
+                    <span>Bet: {formattedPrizePool(debate.memberShares[userIndex])} $PARAD </span>
                 </div>
             </div>
         </>

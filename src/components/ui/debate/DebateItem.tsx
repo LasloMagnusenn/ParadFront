@@ -115,7 +115,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                   <DebateAnswer
                     key={index}
                     topicId={Number(topicID ? topicID : 0)}
-                    debateId={Number(debate.id) - 1}
+                    debateId={Number(debate.id)}
                     answerId={index}
                     metaData={debate.metadata}
                   />

@@ -44,7 +44,7 @@ export default function DebateAnswer({
           title="Buy"
           style={{ marginTop: 15, width: "100%" }}
           topicId={topicId}
-          debateId={debateId}
+          debateId={Number(debateId) - 1}
           answerId={answerId}
           price={price}
           tokenURI={answerData?.tokenURI as string}

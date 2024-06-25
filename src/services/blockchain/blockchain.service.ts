@@ -206,12 +206,14 @@ const getDisputesByTopicList = async (
                 debateIndex
               );
 
+              console.log("DEB", debate)
+
               return {
                 id: debateIndex + 1,
                 status: convertEnumToString(debate.status),
                 isHot: debate.isHot,
                 point: debate.point,
-                members: Number(debate.members),
+                members: debate.members,
                 memberShares: convertBigIntArrayToNumber(debate.memberShares),
                 memberChoices: convertBigIntArrayToNumber(debate.memberChoices),
                 qtyMembers: Number(debate.qtyMembers),
