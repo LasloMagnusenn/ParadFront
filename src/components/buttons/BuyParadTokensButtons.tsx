@@ -10,7 +10,7 @@ export default function BuyParadTokensButtons(props: {
             <a
                 style={{height: 75, width: "100%"}}
                 target="_blank"
-                href="https://pancakeswap.finance/swap?outputCurrency=0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C"
+                href={process.env.NEXT_PUBLIC_BUY_PARAD_PANCAKESWAP as string}
             >
                 {
                     variant === "purple"
@@ -27,7 +27,7 @@ export default function BuyParadTokensButtons(props: {
             <a
                 style={{height: 75, width: "100%"}}
                 target="_blank"
-                href="https://pancakeswap.finance/swap?outputCurrency=0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C"
+                href={process.env.NEXT_PUBLIC_BUY_PARAD_UNISWAP as string}
             >
                 {
                     variant === "purple"
