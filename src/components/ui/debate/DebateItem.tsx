@@ -12,6 +12,7 @@ import PurpleButton from "@/components/buttons/Purple";
 import {useAccount} from "wagmi";
 import { formatUnits } from "viem";
 import BuyParadTokensButtons from "@/components/buttons/BuyParadTokensButtons";
+import {InfoModalButton} from "@/components/modal/InformationModal";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
   const { address } = useAccount();
@@ -67,7 +68,11 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
             <div className={styles.pc}>
               <a href="#answers"><PurpleButton style={{marginTop: 25}} title="Debate"/></a>
-              <GreyButton style={{marginTop: 25}} title="Invite Friends" onClick={handleInviteFriendClick}/>
+              <InfoModalButton
+                  button={<GreyButton style={{marginTop: 25}} title="Invite Friends"/>}
+                  modalText={"Link was copied to clipboard"}
+                  doAction={handleInviteFriendClick}
+              />
             </div>
             <div className={styles.mobile}>
               <a href="#answers">
