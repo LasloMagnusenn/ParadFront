@@ -5,14 +5,18 @@ import styles from "@/styles/components/ui/debate/debate-item-profile.module.css
 import Image from "next/image";
 
 
-export default function HistoryDebateItem({ id: topicID, debate, debatesIndexes, userIndex }: IDebateData & {userIndex: number}) {
+export default function HistoryDebateItem(
+    { id: topicID, debate, debatesIndexes, userIndex, multipleVote }: IDebateData & { userIndex: number, multipleVote: boolean }
+) {
     const formattedPrizePool = (value: number) => Number(
         formatUnits(BigInt(value), 18)
     ).toFixed(2);
 
 
-    // from unknown reasons I have to reverse answer_data, it is working as expected
-    debate.metadata?.answer_data.reverse();
+    // for unknown reasons I have to reverse answer_data, it is working as expected
+    if (multipleVote) {
+        debate.metadata?.answer_data.reverse();
+    }
 
     return (
         <>
@@ -45,6 +49,5 @@ export default function HistoryDebateItem({ id: topicID, debate, debatesIndexes,
                 </div>
             </div>
         </>
-
     );
 }

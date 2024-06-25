@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed8ee34b-e44e-4dcd-ada4-4506b8e8e9ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/ui/debate/HistoryDebateItem.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/screens/debates/ActiveDebates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/screens/debates/ActiveDebates.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/debate/ActiveDebateItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/ActiveDebateItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/ActiveDebatesItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/ActiveDebatesItems.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/debate/DebateAnswer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/DebateAnswer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/HistoryDebateItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/HistoryDebateItem.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/debate/HistoryDebatesItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/HistoryDebatesItems.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useContractData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useContractData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/referral.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/referral.type.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,7 @@
       <workItem from="1718800914852" duration="11069000" />
       <workItem from="1718877129562" duration="9771000" />
       <workItem from="1719245582070" duration="615000" />
-      <workItem from="1719310391497" duration="12977000" />
+      <workItem from="1719310391497" duration="15998000" />
     </task>
     <servers />
   </component>

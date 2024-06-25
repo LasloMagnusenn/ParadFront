@@ -242,6 +242,8 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
       uriString: `https://ipfs.io/ipfs/${metadataURI!}`
     }
 
+    console.log("CREATE:", newForm)
+
     setFormData(newForm);
   };
 
@@ -251,6 +253,7 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
       write();
     }
   }, [formData]);
+
 
   return (
       <div className={styles.form}>

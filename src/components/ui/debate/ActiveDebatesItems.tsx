@@ -9,6 +9,8 @@ export default function ActiveDebatesItems(props: {
   debatesIndexes: ActiveDebates;
 }) {
   const {topics, debatesIndexes} = props;
+  console.log(debatesIndexes)
+
   return (
     <div className={styles.topic_items}>
       <div className={styles.topic_items__container}>
@@ -30,6 +32,7 @@ export default function ActiveDebatesItems(props: {
                       debate={debate}
                       debatesIndexes={debatesIndexes}
                       userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
+                      multipleVote={Boolean(debatesIndexes?.[indexDebate].isMultipleVote)}
                   />
                 </div>
               ))

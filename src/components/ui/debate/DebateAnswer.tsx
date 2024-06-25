@@ -20,8 +20,6 @@ export default function DebateAnswer({
   const answerData = metaData?.answer_data?.[answerId];
 
 
-  console.log(metaData)
-
   return (
     <div className={styles.debate_answer}>
       <div className={styles.debate_answer__container}>

@@ -30,6 +30,7 @@ export default function HistoryDebatesItems(props: {
                             debate={debate}
                             debatesIndexes={debatesIndexes}
                             userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
+                            multipleVote={Boolean(debatesIndexes?.[indexDebate].isMultipleVote)}
                         />
                       </div>
                   ))

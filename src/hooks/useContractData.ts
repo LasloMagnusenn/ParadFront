@@ -115,6 +115,7 @@ export const useGetActiveDisputesForUser = (address?: string) => {
     args: [address],
   });
 
+
   // reading user indexes in disputes
   const { data: indexesOfUserInDisputes } = useReadContracts({
     contracts: rawDisputes?.map(item => {
@@ -127,7 +128,7 @@ export const useGetActiveDisputesForUser = (address?: string) => {
   });
 
   // [0, 1]
-  // console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
+  console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
 
   
   const disputes: ActiveDebates =
@@ -137,7 +138,9 @@ export const useGetActiveDisputesForUser = (address?: string) => {
           topicId: item[0],
           disputeId: item[1],
           /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
-          userIndex: indexesOfUserInDisputes?.[key].result?.[key],
+          userIndex: indexesOfUserInDisputes?.[key].result.length > 1 ? indexesOfUserInDisputes?.[key].result?.[key] : indexesOfUserInDisputes?.[key].result[0],
+          /* @ts-ignore */
+          isMultipleVote: indexesOfUserInDisputes?.[key]?.result.length > 1
         }
       })
       : undefined;
@@ -151,7 +154,7 @@ export const useActiveDisputesForUser = (address?: string) => {
   const [topics, setTopics] = useState<ITopicsData>();
   const activeDisputes = useGetActiveDisputesForUser(address);
 
-  // console.log("active disputes:", activeDisputes)
+  console.log("active disputes:", activeDisputes)
 
 
   const fetchTopics = useCallback(async () => {
