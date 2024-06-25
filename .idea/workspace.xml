@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed8ee34b-e44e-4dcd-ada4-4506b8e8e9ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env.template" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/buttons/BuyParadTokensButtons.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/modal/InformationModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/debates/[topic]/[debate]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/debates/[topic]/[debate]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/BuyNFT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/forms/admin/module/DisputeForms.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/DebateItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/DebateItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useContractWrite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useContractWrite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blockchain/blockchain.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/screens/referrals/Referrals.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/screens/referrals/Referrals.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/debate/DebateItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/debate/DebateItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/topic/TopicItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/topic/TopicItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/blockchain/blockchainData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/blockchain/blockchainData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/blockchain/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/blockchain/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/blockchain/coreConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/blockchain/coreConfig.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +80,8 @@
       <workItem from="1718705173967" duration="16147000" />
       <workItem from="1718800914852" duration="11069000" />
       <workItem from="1718877129562" duration="9771000" />
+      <workItem from="1719245582070" duration="615000" />
+      <workItem from="1719310391497" duration="2794000" />
     </task>
     <servers />
   </component>

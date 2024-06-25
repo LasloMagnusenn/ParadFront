@@ -11,6 +11,7 @@ import AdminDebate from "../admin/AdminDebate";
 import PurpleButton from "@/components/buttons/Purple";
 import {useAccount} from "wagmi";
 import { formatUnits } from "viem";
+import BuyParadTokensButtons from "@/components/buttons/BuyParadTokensButtons";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
   const { address } = useAccount();
@@ -121,16 +122,9 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                 ))}
             </div>
           </div>
-          <a
-            style={{ height: 75 }}
-            target="_blank"
-            href="https://pancakeswap.finance/swap?outputCurrency=0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C"
-          >
-            <GreyButton
-              style={{ width: "100%", height: "100%", fontSize: 18 }}
-              title="Buy PARAD Tokens"
-            />
-          </a>
+
+          <BuyParadTokensButtons variant={"gray"}/>
+
         </div>
       </div>
     </div>

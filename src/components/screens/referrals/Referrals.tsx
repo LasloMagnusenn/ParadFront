@@ -6,6 +6,7 @@ import { useAccount, useClient } from "wagmi";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import PurpleButton from "@/components/buttons/Purple";
 import { useGetComplexRefInfoForUser } from "@/hooks/useContractData";
+import {InfoModalButton} from "@/components/modal/InformationModal";
 
 const testReferrals = [
   {
@@ -90,13 +91,19 @@ export default function Referrals() {
       <div className={styles.referrals__container}>
         <div className={styles.referrals__container__head}>
           <h1>Referrals</h1>
-          <PurpleButton
-            title="Invite Friends"
-            style={{ width: 203, height: 50 }}
-            isFullWidthInMobile
-            hideCubes
-            onClick={handleInviteCLick}
+          <InfoModalButton
+              button={
+                <PurpleButton
+                    title="Invite Friends"
+                    style={{ width: 203, height: 50 }}
+                    isFullWidthInMobile
+                    hideCubes
+                />
+              }
+              modalText={"Link was copied to clipboard"}
+              doAction={handleInviteCLick}
           />
+
         </div>
         <div className={styles.referrals__container__body}>
           <div className={styles.referrals__container__body__head}>
