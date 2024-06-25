@@ -11,13 +11,14 @@ export default function Admin() {
   const isAdmin = useIsAdmin(address);
 
   return (
-    //!isAdmin ? (
-  // <Custom404 />
-  //) : (
-    <div className={styles.admin}>
+    !isAdmin
+    ?
+    (<Custom404 />)
+    :
+    (<div className={styles.admin}>
       <div className={styles.admin__container}>
         <MasterForm />
       </div>
-    </div>
+    </div>)
   );
 }
