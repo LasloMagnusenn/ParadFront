@@ -2,6 +2,7 @@ import { ITopicsData } from "@/interfaces/debates.interface";
 import styles from "@/styles/components/ui/topic/topic-items-account.module.css";
 import ActiveDebateItem from "./ActiveDebateItem";
 import { ActiveDebates } from "@/types/referral.type";
+import HistoryDebateItem from "@/components/ui/debate/HistoryDebateItem";
 
 
 export default function HistoryDebatesItems(props: {
@@ -18,16 +19,21 @@ export default function HistoryDebatesItems(props: {
         </div>
         <div className={styles.topic_items__container__debates}>
           {topics?.topics ? (
-            topics.topics.map((topic) =>
-              topic?.debates.map((debate) => (
-                <div
-                  key={debate.id}
-                  className={styles.topic_items__container__debates__debate}
-                >
-                  <ActiveDebateItem id={topic.id} debate={debate} debatesIndexes={debatesIndexes}/>
-                </div>
-              ))
-            )
+              topics.topics.map((topic, indexTopic) =>
+                  topic?.debates.map((debate, indexDebate) => (
+                      <div
+                          key={`${indexTopic}-${indexDebate}`}
+                          className={styles.topic_items__container__debates__debate}
+                      >
+                        <HistoryDebateItem
+                            id={topic.id}
+                            debate={debate}
+                            debatesIndexes={debatesIndexes}
+                            userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
+                        />
+                      </div>
+                  ))
+              )
           ) : (
             <div className={styles.topic_items__container__debates__not_found}>
               <h3>No Debates Found</h3>

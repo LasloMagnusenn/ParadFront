@@ -19,6 +19,9 @@ export default function DebateAnswer({
   const price = answerId === 2 ? 1000 : answerId === 1 ? 100 : 10;
   const answerData = metaData?.answer_data?.[answerId];
 
+
+  console.log(metaData)
+
   return (
     <div className={styles.debate_answer}>
       <div className={styles.debate_answer__container}>

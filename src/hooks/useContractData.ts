@@ -127,7 +127,7 @@ export const useGetActiveDisputesForUser = (address?: string) => {
   });
 
   // [0, 1]
-  console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
+  // console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
 
   
   const disputes: ActiveDebates =
@@ -151,7 +151,7 @@ export const useActiveDisputesForUser = (address?: string) => {
   const [topics, setTopics] = useState<ITopicsData>();
   const activeDisputes = useGetActiveDisputesForUser(address);
 
-  console.log("active disputes:", activeDisputes)
+  // console.log("active disputes:", activeDisputes)
 
 
   const fetchTopics = useCallback(async () => {
@@ -173,7 +173,7 @@ export const useActiveDisputesForUser = (address?: string) => {
         setTopics(topics);
       }
     };
-    console.log("loop")
+
     !topics?.topics?.length && fetchData();
   }, [activeDisputes, topics]);
 
@@ -190,6 +190,17 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
     functionName: "getHistoryDisputesForUser",
     args: [address],
   });
+
+  // reading user indexes in disputes
+  const { data: indexesOfUserInDisputes } = useReadContracts({
+    contracts: rawDisputes?.map(item => {
+      return {
+        ...sporeContractBase,
+        functionName: "getIndexesOfUserInDispute",
+        args: [item[0], item[1], address],
+      }
+    })
+  });
   
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
@@ -197,6 +208,8 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
         return {
           topicId: item[0],
           disputeId: item[1],
+          /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
+          userIndex: indexesOfUserInDisputes?.[key].result?.[key],
         }
       })
       : undefined;

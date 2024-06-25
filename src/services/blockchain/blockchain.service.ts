@@ -206,8 +206,6 @@ const getDisputesByTopicList = async (
                 debateIndex
               );
 
-              console.log("DEB", debate)
-
               return {
                 id: debateIndex + 1,
                 status: convertEnumToString(debate.status),

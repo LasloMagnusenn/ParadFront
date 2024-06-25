@@ -3,7 +3,6 @@ import Link from "next/link";
 import { formatUnits } from "viem";
 import styles from "@/styles/components/ui/debate/debate-item-profile.module.css";
 import Image from "next/image";
-import {useAccount} from "wagmi";
 
 
 export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes, userIndex }: IDebateData & {userIndex: number}) {
@@ -12,9 +11,9 @@ export default function ActiveDebateItem({ id: topicID, debate, debatesIndexes, 
     ).toFixed(2);
 
 
-    console.log("INDEX:", userIndex)
+    // from unknown reasons I have to reverse answer_data, it is working as expected
+    debate.metadata?.answer_data.reverse();
 
-    
     return (
         <>
             <div className={styles.debate_item}>
