@@ -212,7 +212,9 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
           topicId: item[0],
           disputeId: item[1],
           /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
-          userIndex: indexesOfUserInDisputes?.[key].result?.[key],
+          userIndex: indexesOfUserInDisputes?.[key].result.length > 1 ? indexesOfUserInDisputes?.[key].result?.[key] : indexesOfUserInDisputes?.[key].result[0],
+          /* @ts-ignore */
+          isMultipleVote: indexesOfUserInDisputes?.[key]?.result.length > 1
         }
       })
       : undefined;
