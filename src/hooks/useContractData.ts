@@ -94,6 +94,17 @@ export const useIsUserInDispute = (
   return isInDispute;
 };
 
+export const useIsTokenIdWinner = (tokenId: number | bigint) => {
+  // reading is token won or lost
+  const { data: wonOrLost } = useReadContract({
+    ...sporeContractBase,
+    functionName: "isTokenIdWinner",
+    args: [tokenId]
+  });
+
+  return wonOrLost;
+}
+
 export const useGetComplexRefInfoForUser = (address?: string) => {
   const { data: refInfo }: { data?: Ref } = useReadContract({
     address: sporeAddress,
@@ -135,8 +146,7 @@ export const useActiveDisputesForUser = (address?: string) => {
   const [topics, setTopics] = useState<ITopicsData>();
   const activeDisputes = useGetActiveDisputesForUser(address);
 
-  console.log("active disputes:", activeDisputes)
-
+  //console.log("active disputes:", activeDisputes)
 
   const fetchTopics = useCallback(async () => {
     if (!activeDisputes) {
@@ -186,25 +196,6 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
     })
   });
 
-  let cData = complexInfoInDisputes?.map(item => item.result);
-  /* @ts-ignore */
-  cData = cData?.map(item => item[2]);
-
-
-  console.log("COMPLEX INFO:", cData);
-
-  // reading is token won or lost
-  const { data: wonOrLost } = useReadContracts({
-    /* @ts-ignore */
-    contracts: complexInfoInDisputes?.[2]?.result?.map(item => {
-      return {
-        ...sporeContractBase,
-        functionName: "isTokenIdWinner",
-        args: [item]
-      }
-    })
-  });
-
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
       ? rawDisputes.map((item, key) => {
@@ -212,7 +203,6 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
           topicId: item[0],
           disputeId: item[1],
           complexInfoForUserInDispute: complexInfoInDisputes?.[key].result,
-          wonOrLost: wonOrLost
         }
       })
       : undefined;

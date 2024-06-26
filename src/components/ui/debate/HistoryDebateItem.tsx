@@ -3,6 +3,7 @@ import Link from "next/link";
 import { formatUnits } from "viem";
 import styles from "@/styles/components/ui/debate/debate-item-profile.module.css";
 import Image from "next/image";
+import { useIsTokenIdWinner } from "@/hooks/useContractData";
 
 
 export default function HistoryDebateItem(
@@ -10,16 +11,21 @@ export default function HistoryDebateItem(
         id: topicID,
         debate,
         userIndex,
-        positionalKey
+        positionalKey,
+        historyDebateComplexData,
     }: IDebateData & {
         userIndex: number;
         positionalKey: number;
+        historyDebateComplexData: any;
     }
 ) {
     const formattedPrizePool = (value: number) => Number(
         formatUnits(BigInt(value), 18)
     ).toFixed(2);
 
+    //console.log("HISTORY_DEBATES_COMPLEX_ITEM_TOKEN_INDEX:", historyDebateComplexData.complexInfoForUserInDispute[2][positionalKey])
+
+    const isTOkenIdWinner = useIsTokenIdWinner(historyDebateComplexData.complexInfoForUserInDispute[2][positionalKey]);
 
     return (
         <>
@@ -47,7 +53,10 @@ export default function HistoryDebateItem(
             <div className={styles.debate_item__container__info__bottom}>
                 <div className={styles.debate_item__container__info__text__bottom}>
                     <h4>{debate.metadata?.answer_data[userIndex].answer}</h4>
+
                     <span>Bet: {formattedPrizePool(debate.memberShares[positionalKey])} $PARAD </span>
+                    <span>Status: {isTOkenIdWinner ? "Win" : "Lose"}</span>
+                    <span>Income: {formattedPrizePool(historyDebateComplexData.complexInfoForUserInDispute[3][positionalKey])} $PARAD</span>
                 </div>
             </div>
         </>

@@ -78,8 +78,11 @@ export default function Referrals() {
   const { address } = useAccount();
   const refInfo = useGetComplexRefInfoForUser(address);
 
+  //console.log("REF INFO:", refInfo)
+
   const isEmptyRefs =
     !refInfo || !refInfo[0].length || !refInfo[1].length || !refInfo[2].length;
+  
   const isMobile = width && width <= 760;
 
   const handleInviteCLick = () => {
@@ -131,12 +134,12 @@ export default function Referrals() {
               {explorer &&
                 testReferrals &&
                 width &&
-                refInfo.map((referral, index) => (
+                refInfo[0].map((referralAddress, index) => (
                   <Referral
                     key={index}
-                    address={referral[0] as `0x${string}`}
-                    volume={referral[1] as bigint}
-                    income={referral[2] as bigint}
+                    address={referralAddress as `0x${string}`}
+                    volume={refInfo[1][index] as bigint}
+                    income={refInfo[2][index] as bigint}
                     style={!index ? { marginTop: "-6px" } : {}}
                     explorer={explorer}
                     width={width}
