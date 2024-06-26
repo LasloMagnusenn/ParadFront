@@ -6,10 +6,8 @@ import { ActiveDebates } from "@/types/referral.type";
 
 export default function ActiveDebatesItems(props: {
   topics: ITopicsData | undefined;
-  debatesIndexes: ActiveDebates;
 }) {
-  const {topics, debatesIndexes} = props;
-  console.log(debatesIndexes)
+  const {topics} = props;
 
   return (
     <div className={styles.topic_items}>
@@ -30,9 +28,8 @@ export default function ActiveDebatesItems(props: {
                   <ActiveDebateItem
                       id={topic.id}
                       debate={debate}
-                      debatesIndexes={debatesIndexes}
-                      userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
-                      multipleVote={Boolean(debatesIndexes?.[indexDebate].isMultipleVote)}
+                      positionalKey={indexDebate}
+                      userIndex={debate.memberChoices[indexDebate]}
                   />
                 </div>
               ))

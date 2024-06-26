@@ -44,7 +44,6 @@ export interface IDebatesData {
 export interface IDebateData {
   id?: number | string;
   debate: IDebate;
-  debatesIndexes?: ActiveDebates;
 }
 
 export interface ITopicData {
