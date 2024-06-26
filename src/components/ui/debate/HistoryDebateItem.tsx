@@ -40,7 +40,6 @@ export default function HistoryDebateItem(
                     <div className={styles.debate_item__container__info}>
                         <div className={styles.debate_item__container__info__text}>
                             <h4>{debate.metadata?.point || debate.point}</h4>
-                            <span>Participants: {debate.qtyMembers} / {debate.needQtyMembers}</span>
                         </div>
                     </div>
                 </Link>

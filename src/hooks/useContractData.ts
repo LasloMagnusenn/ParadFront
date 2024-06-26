@@ -175,17 +175,7 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
     args: [address],
   });
 
-  // reading user indexes in disputes
-  const { data: indexesOfUserInDisputes } = useReadContracts({
-    contracts: rawDisputes?.map(item => {
-      return {
-        ...sporeContractBase,
-        functionName: "getIndexesOfUserInDispute",
-        args: [item[0], item[1], address],
-      }
-    })
-  });
-
+  // reading complex user info in dispute
   const {data: complexInfoInDisputes} = useReadContracts({
     contracts: rawDisputes?.map(item => {
       return {
@@ -196,13 +186,33 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
     })
   });
 
+  let cData = complexInfoInDisputes?.map(item => item.result);
+  /* @ts-ignore */
+  cData = cData?.map(item => item[2]);
+
+
+  console.log("COMPLEX INFO:", cData);
+
+  // reading is token won or lost
+  const { data: wonOrLost } = useReadContracts({
+    /* @ts-ignore */
+    contracts: complexInfoInDisputes?.[2]?.result?.map(item => {
+      return {
+        ...sporeContractBase,
+        functionName: "isTokenIdWinner",
+        args: [item]
+      }
+    })
+  });
+
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
       ? rawDisputes.map((item, key) => {
         return {
           topicId: item[0],
           disputeId: item[1],
-          complexInfoForUserInDispute: complexInfoInDisputes?.[key].result
+          complexInfoForUserInDispute: complexInfoInDisputes?.[key].result,
+          wonOrLost: wonOrLost
         }
       })
       : undefined;
