@@ -69,9 +69,11 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
             <div className={styles.pc}>
               <a href="#answers"><PurpleButton style={{marginTop: 25}} title="Debate"/></a>
               <InfoModalButton
-                  button={<GreyButton style={{marginTop: 25}} title="Invite Friends"/>}
-                  modalText={"Link was copied to clipboard"}
-                  doAction={handleInviteFriendClick}
+                button={
+                  <GreyButton style={{marginTop: 25}} title="Invite Friends"/>
+                }
+                modalText={"Link was copied to clipboard"}
+                doAction={handleInviteFriendClick}
               />
             </div>
             <div className={styles.mobile}>
@@ -81,11 +83,19 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                     title="Debate"
                 />
               </a>
-              <GreyButton
-                  style={{marginTop: 10, width: "100%"}}
-                  title="Invite Friends"
-                  onClick={handleInviteFriendClick}
+              <InfoModalButton 
+                button={
+                  <GreyButton
+                    style={{marginTop: 10, width: "100%"}}
+                    title="Invite Friends"
+                    onClick={handleInviteFriendClick}
+                  />
+                } 
+                modalText={"Link was copied to clipboard"}
+                doAction={handleInviteFriendClick}
               />
+                
+            
             </div>
           </div>
 
