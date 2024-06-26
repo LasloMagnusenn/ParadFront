@@ -70,10 +70,12 @@ export const useParadAllowance = (address?: `0x${string}`) => {
 
 export const useIsAdmin = (address?: string) => {
   const { data: adminWallet }: { data?: `0x${string}` } = useReadContract({
-    address: paradAddress,
-    abi: paradABI,
+    address: sporeAddress,
+    abi: sporeABI,
     functionName: "adminWallet",
   });
+
+  //console.log(address && adminWallet && (adminWallet != address) ? "ACCESS DENIED" : "UNKNOWN ADDRESS")
 
   return address && adminWallet ? address === adminWallet : false;
   // return true;

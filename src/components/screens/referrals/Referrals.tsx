@@ -86,7 +86,7 @@ export default function Referrals() {
   const isMobile = width && width <= 760;
 
   const handleInviteCLick = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/?ref=${address}`)
+    //navigator.clipboard.writeText(`${window.location.origin}/?ref=${address}`)
   }
 
   return (
@@ -97,13 +97,13 @@ export default function Referrals() {
           <InfoModalButton
               button={
                 <PurpleButton
-                    title="Invite Friends"
-                    style={{ width: 203, height: 50 }}
-                    isFullWidthInMobile
-                    hideCubes
+                  title="How to invite Friends?"
+                  style={{ width: 203, height: 50 }}
+                  isFullWidthInMobile
+                  hideCubes
                 />
               }
-              modalText={"Link was copied to clipboard"}
+              modalText={"In order to invite friends you should open any debate and click on 'iinvite friends'"}
               doAction={handleInviteCLick}
           />
 
