@@ -7,9 +7,8 @@ import HistoryDebateItem from "@/components/ui/debate/HistoryDebateItem";
 
 export default function HistoryDebatesItems(props: {
   topics: ITopicsData | undefined;
-  debatesIndexes: ActiveDebates;
 }) {
-  const {topics, debatesIndexes} = props;
+  const {topics} = props;
 
   return (
     <div className={styles.topic_items}>
@@ -28,9 +27,8 @@ export default function HistoryDebatesItems(props: {
                         <HistoryDebateItem
                             id={topic.id}
                             debate={debate}
-                            debatesIndexes={debatesIndexes}
-                            userIndex={Number(debatesIndexes?.[indexDebate].userIndex)}
-                            multipleVote={Boolean(debatesIndexes?.[indexDebate].isMultipleVote)}
+                            positionalKey={indexDebate}
+                            userIndex={debate.memberChoices[indexDebate]}
                         />
                       </div>
                   ))

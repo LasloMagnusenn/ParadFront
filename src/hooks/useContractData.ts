@@ -115,21 +115,6 @@ export const useGetActiveDisputesForUser = (address?: string) => {
     args: [address],
   });
 
-
-  // reading user indexes in disputes
-  const { data: indexesOfUserInDisputes } = useReadContracts({
-    contracts: rawDisputes?.map(item => {
-      return {
-        ...sporeContractBase,
-        functionName: "getIndexesOfUserInDispute",
-        args: [item[0], item[1], address],
-      }
-    })
-  });
-
-  // [0, 1]
-  console.log("INDEXES IN DISPUTES:", indexesOfUserInDisputes)
-
   
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
@@ -137,10 +122,6 @@ export const useGetActiveDisputesForUser = (address?: string) => {
         return {
           topicId: item[0],
           disputeId: item[1],
-          /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
-          userIndex: indexesOfUserInDisputes?.[key].result.length > 1 ? indexesOfUserInDisputes?.[key].result?.[key] : indexesOfUserInDisputes?.[key].result[0],
-          /* @ts-ignore */
-          isMultipleVote: indexesOfUserInDisputes?.[key]?.result.length > 1
         }
       })
       : undefined;
@@ -204,17 +185,24 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
       }
     })
   });
-  
+
+  const {data: complexInfoInDisputes} = useReadContracts({
+    contracts: rawDisputes?.map(item => {
+      return {
+        ...sporeContractBase,
+        functionName: "getComplexUserInfoInDispute",
+        args: [item[0], item[1], address]
+      }
+    })
+  });
+
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
-      ? rawDisputes.map((item) => {
+      ? rawDisputes.map((item, key) => {
         return {
           topicId: item[0],
           disputeId: item[1],
-          /* @ts-ignore */ // because of every user can participate as many times as want (including limit)
-          userIndex: indexesOfUserInDisputes?.[key].result.length > 1 ? indexesOfUserInDisputes?.[key].result?.[key] : indexesOfUserInDisputes?.[key].result[0],
-          /* @ts-ignore */
-          isMultipleVote: indexesOfUserInDisputes?.[key]?.result.length > 1
+          complexInfoForUserInDispute: complexInfoInDisputes?.[key].result
         }
       })
       : undefined;

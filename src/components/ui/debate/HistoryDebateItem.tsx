@@ -6,17 +6,20 @@ import Image from "next/image";
 
 
 export default function HistoryDebateItem(
-    { id: topicID, debate, debatesIndexes, userIndex, multipleVote }: IDebateData & { userIndex: number, multipleVote: boolean }
+    {
+        id: topicID,
+        debate,
+        userIndex,
+        positionalKey
+    }: IDebateData & {
+        userIndex: number;
+        positionalKey: number;
+    }
 ) {
     const formattedPrizePool = (value: number) => Number(
         formatUnits(BigInt(value), 18)
     ).toFixed(2);
 
-
-    // for unknown reasons I have to reverse answer_data, it is working as expected
-    if (multipleVote) {
-        debate.metadata?.answer_data.reverse();
-    }
 
     return (
         <>
@@ -45,7 +48,7 @@ export default function HistoryDebateItem(
             <div className={styles.debate_item__container__info__bottom}>
                 <div className={styles.debate_item__container__info__text__bottom}>
                     <h4>{debate.metadata?.answer_data[userIndex].answer}</h4>
-                    <span>Bet: {formattedPrizePool(debate.memberShares[userIndex])} $PARAD </span>
+                    <span>Bet: {formattedPrizePool(debate.memberShares[positionalKey])} $PARAD </span>
                 </div>
             </div>
         </>

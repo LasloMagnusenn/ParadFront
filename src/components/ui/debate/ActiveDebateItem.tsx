@@ -20,7 +20,6 @@ export default function ActiveDebateItem(
         formatUnits(BigInt(value), 18)
     ).toFixed(2);
 
-
     return (
         <>
             <div className={styles.debate_item}>
