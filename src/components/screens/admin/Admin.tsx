@@ -11,7 +11,7 @@ export default function Admin() {
   const isAdmin = useIsAdmin(address);
 
   return (
-    !isAdmin
+    !isAdmin && Number(process.env.NEXT_PUBLIC_INSECURE_ADMIN_ACCESS) === 0
     ?
     (<Custom404 />)
     :
