@@ -29,9 +29,9 @@ export default function HotDebates() {
     <div className={styles.hot_debates}>
       {
         topics?.topics &&
-          topics?.topics.map((topic) => (
-              topic.debates.map((debate) => (
-                  <HotDebateItem key={topic.id} id={topic.id} debate={debate} />
+          topics?.topics.map((topic, indexTopic) => (
+              topic.debates.map((debate, indexDebate) => (
+                  <HotDebateItem key={`${indexTopic}-${indexDebate}`} id={topic.id} debate={debate} />
               ))
           ))
       }

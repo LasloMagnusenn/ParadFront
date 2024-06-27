@@ -1,5 +1,6 @@
 import styles from "@/styles/components/screens/referrals/referral.module.css";
 import { truncateAddress } from "@/utils/truncateAddress";
+import { formatUnits } from "viem";
 
 interface ReferralProps {
   address: `0x${string}`;
@@ -20,6 +21,11 @@ export default function Referral({
 }: ReferralProps) {
   const isMobile = width && width <= 760;
 
+  const formattedPrizePool = (value: bigint) => Number(
+    formatUnits(value, 18)
+  ).toFixed(2);
+
+  
   const truncatedAddress = truncateAddress({
     address,
     width,
@@ -40,22 +46,22 @@ export default function Referral({
                 </a>
                 <h6>Referral Address</h6>
               </div>
-              <p>
-                {Number(income)}
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', flexDirection: 'column' }}>
+                <p>{formattedPrizePool(income)}</p>
                 <h6>Volume ($PARAD)</h6>
-              </p>
-              <p>
-                {Number(volume)}
+              </div>
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', flexDirection: 'column' }}>
+                <p>{formattedPrizePool(volume)}</p>
                 <h6>Your Income</h6>
-              </p>
+              </div>
             </>
           ) : (
             <>
               <a href={`${explorer}/address/${address}`} target="_blank">
                 {truncatedAddress}
               </a>
-              <p>{Number(income)}</p>
-              <p>{Number(volume)}</p>
+              <p>{formattedPrizePool(income)}</p>
+              <p>{formattedPrizePool(volume)}</p>
             </>
           )}
         </div>

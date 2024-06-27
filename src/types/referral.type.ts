@@ -6,5 +6,7 @@ export type ActiveDebates =
   | {
       topicId: bigint;
       disputeId: bigint;
+      userIndex?: bigint;
+      isMultipleVote?: boolean;
     }[]
   | undefined;

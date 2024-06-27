@@ -9,12 +9,14 @@ import {
   useBuyNftInDisputeWrite,
 } from "@/hooks/useContractWrite";
 import {
+  useAdminWalletAddress,
   useParadAllowance,
   useParadBalance,
   useParadDecimals,
 } from "@/hooks/useContractData";
 import {useEffect, useMemo, useState} from "react";
 import {BuyNFTModalButton} from "@/components/modal/BuyNFT";
+import {notifyError} from "@/components/Toasts";
 
 interface BuyNFTButtonProps {
   title: string;
@@ -56,56 +58,73 @@ export default function BuyNFTButton({
   const { address } = useAccount();
 
   const decimals = useParadDecimals();
+  const adminWalletAddress = useAdminWalletAddress();
   const { allowance } = useParadAllowance(address);
   const { balance } = useParadBalance(address);
-  const [referrer, setReferrer] = useState<null | string>(null);
+  const [ referrer, setReferrer ] = useState<null | string>(null);
+  const [ multiplier, setMultiplier ] = useState<number>(0);
 
 
   useEffect(() => {
-    if (address) {
+    if (address && adminWalletAddress) {
       const partnerAddressFromUrl = new URLSearchParams(window.location.search).get("ref");
-      if(partnerAddressFromUrl &&
-          !isZeroAddress(partnerAddressFromUrl as string) &&
-          isEthereumAddress(partnerAddressFromUrl as string)) {
-        setReferrer(partnerAddressFromUrl);
-      } else {
-        setReferrer(address);
+      
+      if (partnerAddressFromUrl && !isEthereumAddress(partnerAddressFromUrl as string)) {
+        notifyError("Referrer address is not valid");
       }
+
+      if (!partnerAddressFromUrl || isZeroAddress(partnerAddressFromUrl as string)) {
+        setReferrer(adminWalletAddress as string);
+        return;
+      }
+
+      if (address === partnerAddressFromUrl) {
+        notifyError("Can not set your own address as referrer");
+        return;
+      }
+
+      setReferrer(partnerAddressFromUrl);
     }
-  }, [address]);
+  }, [address, adminWalletAddress]);
 
   const formattedPrice = useMemo(() => {
     return decimals ? price * 10 ** decimals : 0;
   }, [price, decimals]);
 
   const { write: approveWrite, txStatus: approveTxStatus } = useApproveWrite({
-    amount: formattedPrice,
+    amount: formattedPrice * multiplier
   });
-  console.log("DISPUTE INFO:", referrer, tokenURI)
+
   const { write: buyWrite } = useBuyNftInDisputeWrite({
     topicId,
     debateId,
     answerId,
-    price: formattedPrice,
+    price: formattedPrice * multiplier,
     referrer: referrer as `0x${string}`,
-    tokenURI: tokenURI as string
+    tokenURI: tokenURI
   });
 
   const handleBuyNFT = async (multiplier: number) => {
-    if (balance && formattedPrice && balance >= formattedPrice * multiplier) {
-      if (Number(allowance) >= formattedPrice * multiplier) {
-        buyWrite();
-      } else {
-        approveWrite();
-      }
-    }
+    setMultiplier(multiplier);
   };
 
   useEffect(() => {
     if (approveTxStatus === "success") {
       buyWrite();
+      setMultiplier(0);
     }
   }, [approveTxStatus]);
+
+  useEffect(() => {
+    if (multiplier > 0 && balance && formattedPrice && balance >= formattedPrice * multiplier) {
+      if ((Number(allowance) >= formattedPrice * multiplier) && referrer) {
+        buyWrite();
+        setMultiplier(0);
+      } else {
+        approveWrite();
+      }
+    }
+  }, [multiplier]);
 
   return (
         <BuyNFTModalButton

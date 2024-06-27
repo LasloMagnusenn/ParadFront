@@ -190,6 +190,24 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
       }
     }
 
+    const createMetadataAndUploadToIPFS = async(keyName: string, keyImage: string) => {
+      // {
+      //   "name": "ANSWER",
+      //   "description": "This NFT belongs PARADIGMA METAVERSE",
+      //   "image": "IMAGE",
+      //   "attributes": []
+      // }
+
+      const metadataNFT = {
+        name: formValues[keyName],
+        description: "This NFT belongs PARADIGMA METAVERSE",
+        image: formValues[keyImage],
+        attributes: []
+      }
+
+      return await pinJSONToIPFS(metadataNFT);
+    }
+
     const metadata = {
       preview: formValues["preview"],
       point: formValues["point"],
@@ -197,17 +215,20 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
         {
           id: 0,
           answer: formValues["answer1"],
-          image: formValues["image1"]
+          image: formValues["image1"],
+          tokenURI: `https://ipfs.io/ipfs/${await createMetadataAndUploadToIPFS("answer1", "image1")}`,
         },
         {
           id: 1,
           answer: formValues["answer2"],
-          image: formValues["image2"]
+          image: formValues["image2"],
+          tokenURI: `https://ipfs.io/ipfs/${await createMetadataAndUploadToIPFS("answer2", "image2")}`,
         },
         {
           id: 2,
           answer: formValues["answer3"],
-          image: formValues["image3"]
+          image: formValues["image3"],
+          tokenURI: `https://ipfs.io/ipfs/${await createMetadataAndUploadToIPFS("answer3", "image3")}`
         }
       ]
     }
@@ -221,6 +242,8 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
       uriString: `https://ipfs.io/ipfs/${metadataURI!}`
     }
 
+    console.log("CREATE:", newForm)
+
     setFormData(newForm);
   };
 
@@ -230,6 +253,7 @@ export const CreateDisputeForm = ({ dispute }: IDisputeForm) => {
       write();
     }
   }, [formData]);
+
 
   return (
       <div className={styles.form}>

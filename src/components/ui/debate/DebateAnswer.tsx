@@ -19,6 +19,7 @@ export default function DebateAnswer({
   const price = answerId === 2 ? 1000 : answerId === 1 ? 100 : 10;
   const answerData = metaData?.answer_data?.[answerId];
 
+
   return (
     <div className={styles.debate_answer}>
       <div className={styles.debate_answer__container}>
@@ -44,7 +45,7 @@ export default function DebateAnswer({
           title="Buy"
           style={{ marginTop: 15, width: "100%" }}
           topicId={topicId}
-          debateId={debateId}
+          debateId={Number(debateId) - 1}
           answerId={answerId}
           price={price}
           tokenURI={answerData?.tokenURI as string}

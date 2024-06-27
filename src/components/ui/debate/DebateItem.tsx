@@ -10,9 +10,16 @@ import BackMobile from "@/components/buttons/BackMobile";
 import AdminDebate from "../admin/AdminDebate";
 import PurpleButton from "@/components/buttons/Purple";
 import {useAccount} from "wagmi";
+import { formatUnits } from "viem";
+import BuyParadTokensButtons from "@/components/buttons/BuyParadTokensButtons";
+import {InfoModalButton} from "@/components/modal/InformationModal";
 
 export default function DebateItem({ id: topicID, debate }: IDebateData) {
   const { address } = useAccount();
+
+  const formattedPrizePool = (value: number) => Number(
+    formatUnits(BigInt(value), 18)
+  ).toFixed(2);
 
   const handleInviteFriendClick = () => {
     navigator.clipboard.writeText(`${window.location.origin}${location.pathname}/?ref=${address}`)
@@ -42,7 +49,7 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
             <div className={styles.debate_item__container__info__second}>
               <div className={styles.debate_item__container__info__second__info}>
-                <h2 className="purple_color">{debate.prizePool} $Parad</h2>
+                <h2 className="purple_color">{formattedPrizePool(debate.prizePool)} $Parad</h2>
                 <p className="purple_color">Prize Pool</p>
               </div>
 
@@ -61,7 +68,13 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
 
             <div className={styles.pc}>
               <a href="#answers"><PurpleButton style={{marginTop: 25}} title="Debate"/></a>
-              <GreyButton style={{marginTop: 25}} title="Invite Friends" onClick={handleInviteFriendClick}/>
+              <InfoModalButton
+                button={
+                  <GreyButton style={{marginTop: 25}} title="Invite Friends"/>
+                }
+                modalText={"Link was copied to clipboard"}
+                doAction={handleInviteFriendClick}
+              />
             </div>
             <div className={styles.mobile}>
               <a href="#answers">
@@ -70,11 +83,19 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                     title="Debate"
                 />
               </a>
-              <GreyButton
-                  style={{marginTop: 10, width: "100%"}}
-                  title="Invite Friends"
-                  onClick={handleInviteFriendClick}
+              <InfoModalButton 
+                button={
+                  <GreyButton
+                    style={{marginTop: 10, width: "100%"}}
+                    title="Invite Friends"
+                    onClick={handleInviteFriendClick}
+                  />
+                } 
+                modalText={"Link was copied to clipboard"}
+                doAction={handleInviteFriendClick}
               />
+                
+            
             </div>
           </div>
 
@@ -116,16 +137,9 @@ export default function DebateItem({ id: topicID, debate }: IDebateData) {
                 ))}
             </div>
           </div>
-          <a
-            style={{ height: 75 }}
-            target="_blank"
-            href="https://pancakeswap.finance/swap?outputCurrency=0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C"
-          >
-            <GreyButton
-              style={{ width: "100%", height: "100%", fontSize: 18 }}
-              title="Buy PARAD Tokens"
-            />
-          </a>
+
+          <BuyParadTokensButtons variant={"gray"}/>
+
         </div>
       </div>
     </div>

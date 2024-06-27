@@ -1,9 +1,9 @@
-import { useReadContract } from "wagmi";
+import {useReadContract, useReadContracts} from "wagmi";
 import {
   paradAddress,
   paradABI,
   sporeABI,
-  sporeAddress,
+  sporeAddress, coreConfig,
 } from "@/utils/blockchain/blockchainData";
 import { formatUnits } from "viem";
 import { ActiveDebates, RawActiveDebates, Ref } from "@/types/referral.type";
@@ -11,6 +11,13 @@ import { useCallback, useEffect, useState } from "react";
 import { debatesService } from "@/services/debates.service";
 import { IDebatesData, ITopicsData } from "@/interfaces/debates.interface";
 import { blockchainService } from "@/services/blockchain/blockchain.service";
+import {readContracts} from "@wagmi/core";
+
+
+const sporeContractBase = {
+  address: sporeAddress,
+  abi: sporeABI,
+};
 
 export const useParadDecimals = () => {
   const { data: decimals }: { data?: number } = useReadContract({
@@ -40,6 +47,16 @@ export const useParadBalance = (address?: string) => {
   return { balance, formattedBalance };
 };
 
+export const useAdminWalletAddress = () => {
+  const {data} = useReadContract({
+    address: sporeAddress,
+    abi: sporeABI,
+    functionName: "adminWallet",
+  });
+  
+  return data;
+}
+
 export const useParadAllowance = (address?: `0x${string}`) => {
   const { data: allowance }: { data?: bigint } = useReadContract({
     address: paradAddress,
@@ -53,10 +70,12 @@ export const useParadAllowance = (address?: `0x${string}`) => {
 
 export const useIsAdmin = (address?: string) => {
   const { data: adminWallet }: { data?: `0x${string}` } = useReadContract({
-    address: paradAddress,
-    abi: paradABI,
+    address: sporeAddress,
+    abi: sporeABI,
     functionName: "adminWallet",
   });
+
+  //console.log(address && adminWallet && (adminWallet != address) ? "ACCESS DENIED" : "UNKNOWN ADDRESS")
 
   return address && adminWallet ? address === adminWallet : false;
   // return true;
@@ -76,6 +95,17 @@ export const useIsUserInDispute = (
 
   return isInDispute;
 };
+
+export const useIsTokenIdWinner = (tokenId: number | bigint) => {
+  // reading is token won or lost
+  const { data: wonOrLost } = useReadContract({
+    ...sporeContractBase,
+    functionName: "isTokenIdWinner",
+    args: [tokenId]
+  });
+
+  return wonOrLost;
+}
 
 export const useGetComplexRefInfoForUser = (address?: string) => {
   const { data: refInfo }: { data?: Ref } = useReadContract({
@@ -97,10 +127,11 @@ export const useGetActiveDisputesForUser = (address?: string) => {
     functionName: "getActiveDisputesForUser",
     args: [address],
   });
+
   
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
-      ? rawDisputes.map((item) => {
+      ? rawDisputes.map((item, key) => {
         return {
           topicId: item[0],
           disputeId: item[1],
@@ -111,45 +142,38 @@ export const useGetActiveDisputesForUser = (address?: string) => {
   return disputes;
 };
 
+
 export const useActiveDisputesForUser = (address?: string) => {
   const { getFilteredTopicsAndDebates } = debatesService;
   const [topics, setTopics] = useState<ITopicsData>();
-  const activeDebates = useGetActiveDisputesForUser(address);
+  const activeDisputes = useGetActiveDisputesForUser(address);
 
-  // const activeDebates: ActiveDebates = [
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(1),
-  //   },
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(2),
-  //   },
-  //   {
-  //     topicId: BigInt(2),
-  //     disputeId: BigInt(1),
-  //   },
-  // ];
+  //console.log("active disputes:", activeDisputes)
 
   const fetchTopics = useCallback(async () => {
-    if (!activeDebates) {
+    if (!activeDisputes) {
       return;
     }
     const { getTopics } = blockchainService;
     const data = await getTopics();
-    return await getFilteredTopicsAndDebates(activeDebates, data);
-  }, [activeDebates]);
+    if (!data) {
+      return null;
+    }
+    return await getFilteredTopicsAndDebates(activeDisputes, data);
+  }, [activeDisputes]);
 
   useEffect(() => {
     const fetchData = async () => {
       const topics = await fetchTopics();
-      setTopics(topics);
+      if (topics) {
+        setTopics(topics);
+      }
     };
 
-    !topics?.topics.length && fetchData();
-  }, [activeDebates, topics]);
+    !topics?.topics?.length && fetchData();
+  }, [activeDisputes, topics]);
 
-  return {topics, activeDebates};
+  return {topics, activeDebates: activeDisputes};
 };
 
 
@@ -162,13 +186,25 @@ export const useGetHistoryDisputesForUser = (address?: string) => {
     functionName: "getHistoryDisputesForUser",
     args: [address],
   });
-  
+
+  // reading complex user info in dispute
+  const {data: complexInfoInDisputes} = useReadContracts({
+    contracts: rawDisputes?.map(item => {
+      return {
+        ...sporeContractBase,
+        functionName: "getComplexUserInfoInDispute",
+        args: [item[0], item[1], address]
+      }
+    })
+  });
+
   const disputes: ActiveDebates =
     rawDisputes && rawDisputes.length
-      ? rawDisputes.map((item) => {
+      ? rawDisputes.map((item, key) => {
         return {
           topicId: item[0],
           disputeId: item[1],
+          complexInfoForUserInDispute: complexInfoInDisputes?.[key].result,
         }
       })
       : undefined;
@@ -181,34 +217,24 @@ export const useHistoryDisputesForUser = (address?: string) => {
   const [topics, setTopics] = useState<ITopicsData>();
   const historyDebates = useGetHistoryDisputesForUser(address);
 
-  // const activeDebates: ActiveDebates = [
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(1),
-  //   },
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(2),
-  //   },
-  //   {
-  //     topicId: BigInt(2),
-  //     disputeId: BigInt(1),
-  //   },
-  // ];
-
   const fetchTopics = useCallback(async () => {
     if (!historyDebates) {
       return;
     }
     const { getTopics } = blockchainService;
     const data = await getTopics();
+    if (!data) {
+      return null;
+    }
     return await getFilteredTopicsAndDebates(historyDebates, data);
   }, [historyDebates]);
 
   useEffect(() => {
     const fetchData = async () => {
       const topics = await fetchTopics();
-      setTopics(topics);
+      if (topics) {
+        setTopics(topics);
+      }
     };
 
     !topics?.topics.length && fetchData();
@@ -245,23 +271,6 @@ export const useHotDisputes = () => {
   const [topics, setTopics] = useState<ITopicsData>();
   const hotDisputes = useGetHotDisputes();
 
-  // const activeDebates: ActiveDebates = [
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(1),
-  //   },
-  //   {
-  //     topicId: BigInt(1),
-  //     disputeId: BigInt(2),
-  //   },
-  //   {
-  //     topicId: BigInt(2),
-  //     disputeId: BigInt(1),
-  //   },
-  // ];
-
-  // console.log("HOT DISPUTES:", hotDisputes)
-
 
   const fetchTopics = useCallback(async () => {
     if (!hotDisputes) {
@@ -269,13 +278,18 @@ export const useHotDisputes = () => {
     }
     const { getTopics } = blockchainService;
     const data = await getTopics();
+    if (!data) {
+      return null;
+    }
     return await getFilteredTopicsAndDebates(hotDisputes, data);
   }, [hotDisputes]);
 
   useEffect(() => {
     const fetchData = async () => {
       const topics = await fetchTopics();
-      setTopics(topics);
+      if (topics) {
+        setTopics(topics);
+      }
     };
 
     !topics?.topics.length && fetchData();

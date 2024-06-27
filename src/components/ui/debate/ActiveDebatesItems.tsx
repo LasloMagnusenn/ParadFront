@@ -1,14 +1,13 @@
 import { ITopicsData } from "@/interfaces/debates.interface";
-import styles from "@/styles/components/ui/topic/topic-items.module.css";
+import styles from "@/styles/components/ui/topic/topic-items-account.module.css";
 import ActiveDebateItem from "./ActiveDebateItem";
 import { ActiveDebates } from "@/types/referral.type";
 
 
 export default function ActiveDebatesItems(props: {
   topics: ITopicsData | undefined;
-  debatesIndexes: ActiveDebates;
 }) {
-  const {topics, debatesIndexes} = props;
+  const {topics} = props;
 
   return (
     <div className={styles.topic_items}>
@@ -20,13 +19,18 @@ export default function ActiveDebatesItems(props: {
           
         <div className={styles.topic_items__container__debates}>
           {topics?.topics ? (
-            topics.topics.map((topic) =>
-              topic?.debates.map((debate) => (
+            topics.topics.map((topic, indexTopic) =>
+              topic?.debates.map((debate, indexDebate) => (
                 <div
-                  key={debate.id}
+                  key={`${indexTopic}-${indexDebate}`}
                   className={styles.topic_items__container__debates__debate}
                 >
-                  <ActiveDebateItem id={topic.id} debate={debate} debatesIndexes={debatesIndexes}/>
+                  <ActiveDebateItem
+                      id={topic.id}
+                      debate={debate}
+                      positionalKey={indexDebate}
+                      userIndex={debate.memberChoices[indexDebate]}
+                  />
                 </div>
               ))
             )

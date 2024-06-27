@@ -6,6 +6,7 @@ import {
   IContractWrite,
 } from "@/interfaces/transaction.interface";
 import {
+  coreConfig,
   paradABI,
   paradAddress,
   sporeABI,
@@ -15,12 +16,14 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { notifyError, notifyInfo, notifySuccess } from "@/components/Toasts";
+import {writeContract} from "@wagmi/core";
 
 export const useContractWrite = ({
   address,
   abi,
   functionName,
   args,
+  gasPrice
 }: IContractWrite) => {
   const config = {
     address: address,
@@ -28,6 +31,11 @@ export const useContractWrite = ({
     functionName: functionName,
     args: args,
   };
+
+  if (gasPrice) {
+    /* @ts-ignore */
+    config.gasPrice = gasPrice;
+  }
 
   const { data, status, error, isPending, isSuccess, writeContract } =
     useWriteContract();
@@ -88,13 +96,15 @@ export const useContractWrite = ({
   };
 };
 
-export const useApproveWrite = ({ address, spender, amount }: IApproveWrite) =>
-  useContractWrite({
+export const useApproveWrite = ({ address, spender, amount }: IApproveWrite) => {
+  return useContractWrite({
     address: address || paradAddress,
     abi: paradABI,
     functionName: "approve",
     args: [spender || sporeAddress, amount],
   });
+}
+
 
 export const useBuyNftInDisputeWrite = ({
   topicId,
@@ -103,10 +113,13 @@ export const useBuyNftInDisputeWrite = ({
   price,
   referrer,
   tokenURI,
-}: IBuyNftInDisputeWrite) =>
-  useContractWrite({
+}: IBuyNftInDisputeWrite) => {
+  return useContractWrite({
     address: sporeAddress,
     abi: sporeABI,
     functionName: "buyNftInDispute",
     args: [topicId, debateId, answerId, price, referrer, tokenURI],
+    gasPrice: 1500000000,
   });
+}
+

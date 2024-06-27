@@ -9,7 +9,7 @@ import { readContract, readContracts } from "@wagmi/core";
 import {
   IDebatesData,
   IMetadata,
-  ITopicData,
+  ITopicData, ITopicMetadata,
   ITopicsData,
 } from "@/interfaces/debates.interface";
 import {
@@ -17,6 +17,8 @@ import {
   convertEnumToString,
 } from "@/utils/converter";
 import { title } from "process";
+import fetchFromIPFS from "@/utils/blockchain/fetchFromIPFS";
+import fetchTopicMetadataFromIPFS from "@/utils/blockchain/fetchFromIPFS";
 
 const contract = {
   address: sporeAddress,
@@ -98,11 +100,14 @@ const getDisputesByTopicId = async (topicID: number): Promise<ITopicData> => {
       args: [topicID],
     });
 
-    const topicURIs = await readContract(coreConfig, {
+    const topicURI = await readContract(coreConfig, {
       ...contract,
       functionName: "groupIdURIs",
       args: [topicID]
     });
+
+    /* @ts-ignore */
+    const metadataURI = await fetchTopicMetadataFromIPFS(topicURI.result as string)
 
     const topicParticipants = await readContract(coreConfig, {
       ...contract,
@@ -110,29 +115,39 @@ const getDisputesByTopicId = async (topicID: number): Promise<ITopicData> => {
       args: [topicID]
     });
 
+
     const result: ITopicData = {
       topic: {
         id: topicID,
-        debates: (rawResult as any).map((debate: any, index: number) => ({
-          id: index + 1,
-          title: "test title",
-          image: "" + topicURIs,
-          participantsCount: Number(topicParticipants),
-          status: convertEnumToString(debate.status),
-          isHot: debate.isHot,
-          point: debate.point,
-          members: Number(debate.members),
-          memberShares: convertBigIntArrayToNumber(debate.memberShares),
-          memberChoices: convertBigIntArrayToNumber(debate.memberChoices),
-          qtyMembers: Number(debate.qtyMembers),
-          needQtyMembers: Number(debate.needQtyMembers),
-          qtyAnswers: Number(debate.qtyAnswers),
-          pointScores: convertBigIntArrayToNumber(debate.pointScores),
-          prizePool: Number(debate.prizePool),
-          nftUris: debate.nftUris,
-        })),
-      },
-    };
+        participantsCount: Number(topicParticipants),
+        image: metadataURI?.image || "",
+        title: metadataURI?.name || "No title provided",
+        debates: (rawResult as any).map(async(debate: any, index: number) => {
+          const {uri, metadata} = await getUriForDispute(
+              topicID,
+              index
+          );
+          return {
+            id: index + 1,
+            status: convertEnumToString(debate.status),
+            isHot: debate.isHot,
+            point: debate.point,
+            members: Number(debate.members),
+            memberShares: convertBigIntArrayToNumber(debate.memberShares),
+            memberChoices: convertBigIntArrayToNumber(debate.memberChoices),
+            qtyMembers: Number(debate.qtyMembers),
+            needQtyMembers: Number(debate.needQtyMembers),
+            qtyAnswers: Number(debate.qtyAnswers),
+            pointScores: convertBigIntArrayToNumber(debate.pointScores),
+            prizePool: Number(debate.prizePool),
+            nftUris: debate.nftUris,
+            uri,
+            metadata,
+          }
+        })
+      }
+    }
+
 
     return result;
   } catch (error) {
@@ -162,7 +177,9 @@ const getDisputesByTopicList = async (
       })),
     });
 
-    //console.log(topicsURIs)
+
+    // Fetched image and title from IPFS
+    const metadataURIs = await Promise.all(topicsURIs.map(async i => await fetchTopicMetadataFromIPFS(i.result as string)))
 
     const topicsParticipants = await readContracts(coreConfig, {
       contracts: topicList.map((topicId) => ({
@@ -179,8 +196,8 @@ const getDisputesByTopicList = async (
       topics: await Promise.all(
         rawResult.map(async (item: any, topicIndex: number) => ({
           id: topicIndex + 1,
-          title: "test title",
-          image: "" + topicsURIs[topicIndex].result,
+          title: metadataURIs[topicIndex]?.name || "No title provided",
+          image: metadataURIs[topicIndex]?.image || "",
           participantsCount: Number(topicsParticipants[topicIndex].result),
           debates: await Promise.all(
             item.result.map(async (debate: any, debateIndex: number) => {
@@ -188,12 +205,13 @@ const getDisputesByTopicList = async (
                 topicIndex + 1,
                 debateIndex
               );
+
               return {
                 id: debateIndex + 1,
                 status: convertEnumToString(debate.status),
                 isHot: debate.isHot,
                 point: debate.point,
-                members: Number(debate.members),
+                members: debate.members,
                 memberShares: convertBigIntArrayToNumber(debate.memberShares),
                 memberChoices: convertBigIntArrayToNumber(debate.memberChoices),
                 qtyMembers: Number(debate.qtyMembers),
@@ -236,7 +254,7 @@ const getDecimalsOfToken = async (address: `0x${string}`): Promise<number> => {
 };
 
 export const blockchainService = {
-  async getTopics(): Promise<ITopicsData> {
+  async getTopics(): Promise<ITopicsData | undefined> {
     try {
       const topicList = await getTopicList();
       const debates = await getDisputesByTopicList(topicList);
@@ -244,7 +262,7 @@ export const blockchainService = {
       return debates;
     } catch (error) {
       console.log(error)
-      throw new Error();
+      //throw new Error();
     }
   },
   async getDecimalsOfToken(address: `0x${string}`): Promise<number> {

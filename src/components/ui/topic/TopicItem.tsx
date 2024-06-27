@@ -6,6 +6,7 @@ import styleshotDebates from "@/styles/pages/debates.module.css";
 import BackMobile from "@/components/buttons/BackMobile";
 import PurpleButton from "@/components/buttons/Purple";
 import { HotDebatesPreloaded } from "@/components/screens/debates/HotDebates";
+import BuyParadTokensButtons from "@/components/buttons/BuyParadTokensButtons";
 
 export default function TopicItem({ topic }: ITopicData) {
   const hotDebatesTopic: IDebatesData = {
@@ -47,14 +48,14 @@ export default function TopicItem({ topic }: ITopicData) {
             <HotDebatesPreloaded debates={hotDebatesTopic} topicId={topic.id}/>
           </div>
         }
-        
+
         <div className={styles.debates}>
 
           {coldDebatesExist && (
               <div>
                 <div className={styles.topic_item__container__head}>
-                <h1>{topic.title} - Debates</h1>
-              </div>
+                  <h1>{topic.title} - Debates</h1>
+                </div>
                 <div className={styles.topic_item__container__debates}>
                   {coldDebatesTopic?.debates.map((debate) => (
                       <DebateItems key={debate.id} id={topic?.id} debate={debate}/>
@@ -63,16 +64,7 @@ export default function TopicItem({ topic }: ITopicData) {
               </div>
           )}
 
-          <a
-              style={{height: 75}}
-              target="_blank"
-              href="https://pancakeswap.finance/swap?outputCurrency=0xBDa093C16347b5B106bC5BF9aFd0DdEef85eA60C"
-          >
-            <PurpleButton
-                style={{width: "100%", height: "100%", fontSize: 18}}
-                title="Buy PARAD Tokens"
-            />
-          </a>
+          <BuyParadTokensButtons variant={"purple"}/>
         </div>
       </div>
     </div>

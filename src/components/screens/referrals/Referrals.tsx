@@ -6,6 +6,7 @@ import { useAccount, useClient } from "wagmi";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import PurpleButton from "@/components/buttons/Purple";
 import { useGetComplexRefInfoForUser } from "@/hooks/useContractData";
+import {InfoModalButton} from "@/components/modal/InformationModal";
 
 const testReferrals = [
   {
@@ -77,12 +78,15 @@ export default function Referrals() {
   const { address } = useAccount();
   const refInfo = useGetComplexRefInfoForUser(address);
 
+  //console.log("REF INFO:", refInfo)
+
   const isEmptyRefs =
     !refInfo || !refInfo[0].length || !refInfo[1].length || !refInfo[2].length;
+  
   const isMobile = width && width <= 760;
 
   const handleInviteCLick = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/?ref=${address}`)
+    //navigator.clipboard.writeText(`${window.location.origin}/?ref=${address}`)
   }
 
   return (
@@ -90,13 +94,19 @@ export default function Referrals() {
       <div className={styles.referrals__container}>
         <div className={styles.referrals__container__head}>
           <h1>Referrals</h1>
-          <PurpleButton
-            title="Invite Friends"
-            style={{ width: 203, height: 50 }}
-            isFullWidthInMobile
-            hideCubes
-            onClick={handleInviteCLick}
+          <InfoModalButton
+              button={
+                <PurpleButton
+                  title="How to invite Friends?"
+                  style={{ width: 203, height: 50 }}
+                  isFullWidthInMobile
+                  hideCubes
+                />
+              }
+              modalText={"In order to invite friends you should open any debate and click on 'iinvite friends'"}
+              doAction={handleInviteCLick}
           />
+
         </div>
         <div className={styles.referrals__container__body}>
           <div className={styles.referrals__container__body__head}>
@@ -124,12 +134,12 @@ export default function Referrals() {
               {explorer &&
                 testReferrals &&
                 width &&
-                refInfo.map((referral, index) => (
+                refInfo[0].map((referralAddress, index) => (
                   <Referral
                     key={index}
-                    address={referral[0] as `0x${string}`}
-                    volume={referral[1] as bigint}
-                    income={referral[2] as bigint}
+                    address={referralAddress as `0x${string}`}
+                    volume={refInfo[1][index] as bigint}
+                    income={refInfo[2][index] as bigint}
                     style={!index ? { marginTop: "-6px" } : {}}
                     explorer={explorer}
                     width={width}

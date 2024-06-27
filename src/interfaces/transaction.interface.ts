@@ -6,6 +6,7 @@ export interface IContractWrite {
   abi: Abi;
   address: `0x${string}`;
   args?: any[];
+  gasPrice?: number;
 }
 
 export interface IApproveWrite {

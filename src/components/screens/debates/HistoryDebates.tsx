@@ -8,5 +8,7 @@ export default function HistoryDebates() {
   const { address } = useAccount();
   const data = useHistoryDisputesForUser(address);
 
-  return <div>{<HistoryDebatesItems topics={data?.topics} debatesIndexes={data.historyDebates} />}</div>;
+  //console.log("HISTORY_DEBATES:", data)
+
+  return <div>{<HistoryDebatesItems topics={data?.topics} historyDebatesComplexData={data.historyDebates} />}</div>;
 }
